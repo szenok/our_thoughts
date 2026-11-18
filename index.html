@@ -276,7 +276,7 @@
     </div>
 
     <!-- =========================================================
-         1. 秘密暗號大門 (Secret Code Gate: 0627 · Our Thoughts Garden)
+         1. 秘密暗號大門 (Secret Code Gate)
          ========================================================= -->
     <div id="gate-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center p-5 transition-all duration-1000">
         <!-- 大門右上角音樂開關 -->
@@ -394,17 +394,9 @@
                     </div>
                 </div>
 
-                <!-- 下層：香港實時 / 日夜天氣氛圍預覽切換 + 圖鑑 + 備份 + 桌面版 Alto 晨光琴控制 -->
+                <!-- 下層：天氣狀態 + 圖鑑 + 備份 + 桌面版 Alto 晨光琴控制 -->
                 <div class="pt-2.5 border-t border-slate-200/70 flex flex-wrap items-center justify-between gap-2">
-                    <div class="flex items-center gap-1 bg-slate-100/90 p-1 rounded-full border border-slate-200/70 overflow-x-auto no-scrollbar max-w-full">
-                        <button onclick="setAtmosphereMode('hk-live')" id="atmo-btn-hk-live" class="atmo-btn px-2.5 py-1 rounded-full text-[11px] font-medium transition-all whitespace-nowrap">🇭🇰 香港實時</button>
-                        <button onclick="setAtmosphereMode('dawn')" id="atmo-btn-dawn" class="atmo-btn px-2.5 py-1 rounded-full text-[11px] font-medium transition-all whitespace-nowrap">🌅 晨曦</button>
-                        <button onclick="setAtmosphereMode('noon')" id="atmo-btn-noon" class="atmo-btn px-2.5 py-1 rounded-full text-[11px] font-medium transition-all whitespace-nowrap">☀️ 晴空</button>
-                        <button onclick="setAtmosphereMode('dusk')" id="atmo-btn-dusk" class="atmo-btn px-2.5 py-1 rounded-full text-[11px] font-medium transition-all whitespace-nowrap">🌇 黃昏</button>
-                        <button onclick="setAtmosphereMode('night')" id="atmo-btn-night" class="atmo-btn px-2.5 py-1 rounded-full text-[11px] font-medium transition-all whitespace-nowrap">🌌 星夜</button>
-                        <button onclick="setAtmosphereMode('rain')" id="atmo-btn-rain" class="atmo-btn px-2.5 py-1 rounded-full text-[11px] font-medium transition-all whitespace-nowrap">🌧️ 細雨</button>
-                        <button onclick="setAtmosphereMode('wind')" id="atmo-btn-wind" class="atmo-btn px-2.5 py-1 rounded-full text-[11px] font-medium transition-all whitespace-nowrap">🍃 微風</button>
-                    </div>
+                    <div class="flex items-center gap-1 bg-slate-100/90 px-3 py-1.5 rounded-full border border-slate-200/70 text-[11px] text-slate-500 font-medium">✨ 天氣已與香港實時同步</div>
 
                     <div class="flex items-center gap-1.5 ml-auto lg:ml-0">
                         <button 
@@ -731,7 +723,7 @@
     </div>
 
     <!-- =========================================================
-         5. 7 階長線植物圖鑑彈窗 (1,080 篇 7-Tier Botanical Almanac)
+         5. 7 階長線植物圖鑑彈窗 (1,800 篇 7-Tier Botanical Almanac)
          ========================================================= -->
     <div id="almanac-modal" class="fixed inset-0 z-40 bg-slate-950/65 backdrop-blur-xs hidden items-center justify-center p-4 opacity-0 transition-opacity duration-300">
         <div class="bg-[#FAF8F5] border border-white/60 rounded-3xl max-w-4xl w-full p-5 sm:p-7 shadow-2xl transform scale-95 transition-transform duration-300 max-h-[90vh] flex flex-col" id="almanac-modal-card">
@@ -741,41 +733,41 @@
                         <span>📖 7 階草木神樹圖鑑 (52 款)</span>
                         <span id="almanac-modal-progress-pill" class="text-xs font-mono bg-amber-100 text-amber-900 px-2.5 py-0.5 rounded-full">已解鎖 4 / 52</span>
                     </h3>
-                    <p class="text-xs text-slate-500 mt-0.5">按 7 大階梯遞增難度，跨越 1,080 篇想法逐步解鎖全部草木</p>
+                    <p class="text-xs text-slate-500 mt-0.5">按 7 大階梯遞增難度，跨越 1,800 篇想法逐步解鎖全部草木</p>
                 </div>
                 <button onclick="closeAlmanacModal()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center">✕</button>
             </div>
 
-            <!-- 總里程碑進度條 (0 -> 1080 篇) -->
+            <!-- 總里程碑進度條 (0 -> 1800 篇) -->
             <div class="mt-4 bg-white p-4 rounded-2xl border border-slate-200/80 shrink-0">
                 <div class="flex flex-wrap items-center justify-between text-xs mb-2 gap-2">
-                    <span class="text-slate-600">目前累積想法：<strong id="almanac-total-planted" class="text-slate-900 font-semibold">0</strong> / 1,080 篇</span>
+                    <span class="text-slate-600">目前累積想法：<strong id="almanac-total-planted" class="text-slate-900 font-semibold">0</strong> / 1,800 篇</span>
                     <span id="almanac-next-milestone" class="text-emerald-800 font-medium">下一目標：寫滿 5 篇解鎖「蒲公英」！</span>
                 </div>
                 <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
                     <div id="almanac-progress-bar" class="h-full bg-gradient-to-r from-emerald-600 via-amber-500 to-rose-500 rounded-full transition-all duration-700" style="width: 2%;"></div>
                 </div>
                 <div class="flex justify-between text-[10px] font-mono text-slate-400 mt-1.5">
-                    <span>T1: 0-18篇</span>
-                    <span>T2: 25-65篇</span>
-                    <span>T3: 80-160篇</span>
-                    <span>T4: 190-320篇</span>
-                    <span>T5: 360-540篇</span>
-                    <span>T6: 600-820篇</span>
-                    <span>T7: 900-1080篇</span>
+                    <span>T1: 0-30篇</span>
+                    <span>T2: 40-100篇</span>
+                    <span>T3: 130-260篇</span>
+                    <span>T4: 310-530篇</span>
+                    <span>T5: 600-900篇</span>
+                    <span>T6: 1000-1400篇</span>
+                    <span>T7: 900-1800篇</span>
                 </div>
             </div>
 
             <!-- 7 大階梯篩選標籤 -->
             <div class="flex items-center gap-1.5 mt-3 overflow-x-auto no-scrollbar shrink-0">
                 <button onclick="renderAlmanacGrid('all')" class="alm-tab px-3 py-1 rounded-full text-xs bg-slate-900 text-white whitespace-nowrap" data-tier="all">全部 (52)</button>
-                <button onclick="renderAlmanacGrid(1)" class="alm-tab px-3 py-1 rounded-full text-xs bg-white text-slate-600 border border-slate-200 whitespace-nowrap" data-tier="1">Tier 1 · 初芽草花 (0-18篇)</button>
-                <button onclick="renderAlmanacGrid(2)" class="alm-tab px-3 py-1 rounded-full text-xs bg-white text-slate-600 border border-slate-200 whitespace-nowrap" data-tier="2">Tier 2 · 芬芳灌木 (25-65篇)</button>
-                <button onclick="renderAlmanacGrid(3)" class="alm-tab px-3 py-1 rounded-full text-xs bg-white text-slate-600 border border-slate-200 whitespace-nowrap" data-tier="3">Tier 3 · 果實花木 (80-160篇)</button>
-                <button onclick="renderAlmanacGrid(4)" class="alm-tab px-3 py-1 rounded-full text-xs bg-white text-slate-600 border border-slate-200 whitespace-nowrap" data-tier="4">Tier 4 · 四季庭園樹 (190-320篇)</button>
-                <button onclick="renderAlmanacGrid(5)" class="alm-tab px-3 py-1 rounded-full text-xs bg-white text-slate-600 border border-slate-200 whitespace-nowrap" data-tier="5">Tier 5 · 秘境森木 (360-540篇)</button>
-                <button onclick="renderAlmanacGrid(6)" class="alm-tab px-3 py-1 rounded-full text-xs bg-white text-slate-600 border border-slate-200 whitespace-nowrap" data-tier="6">Tier 6 · 星輝古樹 (600-820篇)</button>
-                <button onclick="renderAlmanacGrid(7)" class="alm-tab px-3 py-1 rounded-full text-xs bg-white text-slate-600 border border-slate-200 whitespace-nowrap" data-tier="7">Tier 7 · 星辰神木 (900-1080篇)</button>
+                <button onclick="renderAlmanacGrid(1)" class="alm-tab px-3 py-1 rounded-full text-xs bg-white text-slate-600 border border-slate-200 whitespace-nowrap" data-tier="1">Tier 1 · 初芽草花 (0-30篇)</button>
+                <button onclick="renderAlmanacGrid(2)" class="alm-tab px-3 py-1 rounded-full text-xs bg-white text-slate-600 border border-slate-200 whitespace-nowrap" data-tier="2">Tier 2 · 芬芳灌木 (40-100篇)</button>
+                <button onclick="renderAlmanacGrid(3)" class="alm-tab px-3 py-1 rounded-full text-xs bg-white text-slate-600 border border-slate-200 whitespace-nowrap" data-tier="3">Tier 3 · 果實花木 (130-260篇)</button>
+                <button onclick="renderAlmanacGrid(4)" class="alm-tab px-3 py-1 rounded-full text-xs bg-white text-slate-600 border border-slate-200 whitespace-nowrap" data-tier="4">Tier 4 · 四季庭園樹 (310-530篇)</button>
+                <button onclick="renderAlmanacGrid(5)" class="alm-tab px-3 py-1 rounded-full text-xs bg-white text-slate-600 border border-slate-200 whitespace-nowrap" data-tier="5">Tier 5 · 秘境森木 (600-900篇)</button>
+                <button onclick="renderAlmanacGrid(6)" class="alm-tab px-3 py-1 rounded-full text-xs bg-white text-slate-600 border border-slate-200 whitespace-nowrap" data-tier="6">Tier 6 · 星輝古樹 (1000-1400篇)</button>
+                <button onclick="renderAlmanacGrid(7)" class="alm-tab px-3 py-1 rounded-full text-xs bg-white text-slate-600 border border-slate-200 whitespace-nowrap" data-tier="7">Tier 7 · 星辰神木 (900-1800篇)</button>
             </div>
 
             <div id="almanac-grid" class="mt-3 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2.5 overflow-y-auto letter-scroll pr-1 flex-1"></div>
@@ -824,11 +816,11 @@
             apiKey: "AIzaSyBd2hpAQZhamegODtckmRIBdypbWwMlqqo",
             authDomain: "ourthoughts-63960.firebaseapp.com",
             databaseURL: "https://ourthoughts-63960-default-rtdb.asia-southeast1.firebasedatabase.app",
-	    projectId: "ourthoughts-63960",
+            projectId: "ourthoughts-63960",
             storageBucket: "ourthoughts-63960.firebasestorage.app",
             messagingSenderId: "193724153704",
             appId: "1:193724153704:web:2805a86b04a61afc5420dd"
-	};
+        };
         // 初始化 Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.database();
@@ -838,82 +830,82 @@
          * [專屬暗號與日曆印記設定]
          * =========================================================
          */
-        const SECRET_CODE = "0627";
+        const SECRET_CODE_B64 = "MDYyNw=="; // Base64 編碼，隱藏明文密碼
         const MET_DATE_DOT = "2026.11.05"; // 僅在回憶日曆 2026年11月5日 顯示的低調星標印記
 
         /**
          * =========================================================
-         * 1. 跨越 1,080 篇的 7 大階梯（Tier 1 - Tier 7）52 款草木神樹圖鑑
+         * 1. 跨越 1,800 篇的 7 大階梯（Tier 1 - Tier 7）52 款草木神樹圖鑑
          * Tier 1: 0–18 篇 | Tier 2: 25–65 篇 | Tier 3: 80–160 篇
-         * Tier 4: 190–320 篇 | Tier 5: 360–540 篇 | Tier 6: 600–820 篇 | Tier 7: 900–1,080 篇
+         * Tier 4: 190–320 篇 | Tier 5: 360–540 篇 | Tier 6: 600–820 篇 | Tier 7: 900–1,800 篇
          * =========================================================
          */
         const SPECIES_CATALOG = [
-            // --- Tier 1: 初芽草花 (0 ~ 18 篇，共 8 款) ---
+            // --- Tier 1: 初芽草花 (0 ~ 30 篇) ---
             { id: 'sunflower', name: '向日葵', meaning: '溫暖與陪伴', unlockAt: 0, tier: 1, arch: 'flower', stem: '#4D7C5B', c1: '#FBBF24', c2: '#F59E0B', center: '#78350F' },
             { id: 'tulip', name: '粉紅鬱金香', meaning: '溫柔的心意', unlockAt: 0, tier: 1, arch: 'tulip', stem: '#4D7C5B', c1: '#F472B6', c2: '#FBCFE8' },
             { id: 'clover', name: '幸運四葉草', meaning: '悄然降臨的幸運', unlockAt: 0, tier: 1, arch: 'clover', stem: '#3F6E52', c1: '#4ADE80', c2: '#86EFAC' },
             { id: 'daisy', name: '白雛菊', meaning: '純真與深藏的溫柔', unlockAt: 0, tier: 1, arch: 'flower', stem: '#52796F', c1: '#FFFFFF', c2: '#F1F5F9', center: '#FACC15' },
-            { id: 'dandelion', name: '蒲公英', meaning: '隨風而至的思念', unlockAt: 5, tier: 1, arch: 'puff', stem: '#658361', c1: '#F8FAFC', c2: '#E2E8F0' },
-            { id: 'fern', name: '森林小蕨', meaning: '靜謐的守護', unlockAt: 9, tier: 1, arch: 'fern', stem: '#2D5A43', c1: '#34D399', c2: '#6EE7B7' },
-            { id: 'chamomile', name: '洋甘菊', meaning: '苦盡甘來的治癒', unlockAt: 13, tier: 1, arch: 'flower', stem: '#52796F', c1: '#FEF9C3', c2: '#FFFFFF', center: '#F59E0B' },
-            { id: 'forgetmenot', name: '勿忘我', meaning: '永不褪色的記憶', unlockAt: 18, tier: 1, arch: 'bell', stem: '#4D7C5B', c1: '#38BDF8', c2: '#BAE6FD' },
+            { id: 'dandelion', name: '蒲公英', meaning: '隨風而至的思念', unlockAt: 8, tier: 1, arch: 'puff', stem: '#658361', c1: '#F8FAFC', c2: '#E2E8F0' },
+            { id: 'fern', name: '森林小蕨', meaning: '靜謐的守護', unlockAt: 15, tier: 1, arch: 'fern', stem: '#2D5A43', c1: '#34D399', c2: '#6EE7B7' },
+            { id: 'chamomile', name: '洋甘菊', meaning: '苦盡甘來的治癒', unlockAt: 22, tier: 1, arch: 'flower', stem: '#52796F', c1: '#FEF9C3', c2: '#FFFFFF', center: '#F59E0B' },
+            { id: 'forgetmenot', name: '勿忘我', meaning: '永不褪色的記憶', unlockAt: 30, tier: 1, arch: 'bell', stem: '#4D7C5B', c1: '#38BDF8', c2: '#BAE6FD' },
 
-            // --- Tier 2: 芬芳灌木 (25 ~ 65 篇，共 8 款) ---
-            { id: 'lavender', name: '薰衣草', meaning: '寧靜與等待', unlockAt: 25, tier: 2, arch: 'spike', stem: '#52796F', c1: '#A78BFA', c2: '#C4B5FD' },
-            { id: 'cactus', name: '迷你仙人掌', meaning: '外冷內熱的偏愛', unlockAt: 30, tier: 2, arch: 'cactus', stem: '#3B7A57', c1: '#10B981', c2: '#F43F5E' },
-            { id: 'mushroom', name: '紅傘小蘑菇', meaning: '治癒與童趣', unlockAt: 36, tier: 2, arch: 'mushroom', stem: '#FEF3C7', c1: '#EF4444', c2: '#FFFFFF' },
-            { id: 'bluebell', name: '藍風鈴', meaning: '溫柔的思念', unlockAt: 41, tier: 2, arch: 'bell', stem: '#4D7C5B', c1: '#60A5FA', c2: '#93C5FD' },
-            { id: 'lily', name: '鈴蘭', meaning: '幸福歸來', unlockAt: 47, tier: 2, arch: 'bell', stem: '#3F6E52', c1: '#FFFFFF', c2: '#E2E8F0' },
-            { id: 'berry', name: '野生漿果叢', meaning: '甜蜜的日常果實', unlockAt: 53, tier: 2, arch: 'bush', stem: '#365E47', c1: '#22C55E', c2: '#F43F5E' },
-            { id: 'rosemary', name: '迷迭香', meaning: '把你記在心上', unlockAt: 59, tier: 2, arch: 'spike', stem: '#47695B', c1: '#6EE7B7', c2: '#93C5FD' },
-            { id: 'jasmine', name: '茉莉花叢', meaning: '質樸清甜的陪伴', unlockAt: 65, tier: 2, arch: 'bush', stem: '#3F6E52', c1: '#4ADE80', c2: '#FFFFFF' },
+            // --- Tier 2: 芬芳灌木 (40 ~ 100 篇) ---
+            { id: 'lavender', name: '薰衣草', meaning: '寧靜與等待', unlockAt: 40, tier: 2, arch: 'spike', stem: '#52796F', c1: '#A78BFA', c2: '#C4B5FD' },
+            { id: 'cactus', name: '迷你仙人掌', meaning: '外冷內熱的偏愛', unlockAt: 50, tier: 2, arch: 'cactus', stem: '#3B7A57', c1: '#10B981', c2: '#F43F5E' },
+            { id: 'mushroom', name: '紅傘小蘑菇', meaning: '治癒與童趣', unlockAt: 60, tier: 2, arch: 'mushroom', stem: '#FEF3C7', c1: '#EF4444', c2: '#FFFFFF' },
+            { id: 'bluebell', name: '藍風鈴', meaning: '溫柔的思念', unlockAt: 70, tier: 2, arch: 'bell', stem: '#4D7C5B', c1: '#60A5FA', c2: '#93C5FD' },
+            { id: 'lily', name: '鈴蘭', meaning: '幸福歸來', unlockAt: 80, tier: 2, arch: 'bell', stem: '#3F6E52', c1: '#FFFFFF', c2: '#E2E8F0' },
+            { id: 'berry', name: '野生漿果叢', meaning: '甜蜜的日常果實', unlockAt: 90, tier: 2, arch: 'bush', stem: '#365E47', c1: '#22C55E', c2: '#F43F5E' },
+            { id: 'rosemary', name: '迷迭香', meaning: '把你記在心上', unlockAt: 100, tier: 2, arch: 'spike', stem: '#47695B', c1: '#6EE7B7', c2: '#93C5FD' },
+            { id: 'jasmine', name: '茉莉花叢', meaning: '質樸清甜的陪伴', unlockAt: 115, tier: 2, arch: 'bush', stem: '#3F6E52', c1: '#4ADE80', c2: '#FFFFFF' },
 
-            // --- Tier 3: 果實花木 (80 ~ 160 篇，共 8 款) ---
-            { id: 'hydrangea', name: '無盡夏繡球', meaning: '圓滿與團聚', unlockAt: 80, tier: 3, arch: 'puff', stem: '#4D7C5B', c1: '#818CF8', c2: '#C7D2FE' },
-            { id: 'rose', name: '紅玫瑰叢', meaning: '熱烈與真心', unlockAt: 91, tier: 3, arch: 'bush', stem: '#365E47', c1: '#15803D', c2: '#E11D48' },
-            { id: 'peony', name: '粉牡丹叢', meaning: '濃情與圓滿', unlockAt: 102, tier: 3, arch: 'puff', stem: '#4D7C5B', c1: '#F43F5E', c2: '#FDA4AF' },
-            { id: 'gardenia', name: '梔子花', meaning: '永恆的約定', unlockAt: 114, tier: 3, arch: 'flower', stem: '#2D5A43', c1: '#FFFFFF', c2: '#F8FAFC', center: '#FDE047' },
-            { id: 'cotton', name: '棉花灌木', meaning: '柔軟溫暖的擁抱', unlockAt: 125, tier: 3, arch: 'bush', stem: '#6B4F4B', c1: '#94A3B8', c2: '#FFFFFF' },
-            { id: 'marigold', name: '金盞花叢', meaning: '陽光照進心房', unlockAt: 137, tier: 3, arch: 'flower', stem: '#4D7C5B', c1: '#FB923C', c2: '#FDBA74', center: '#9A3412' },
-            { id: 'heath', name: '石楠花叢', meaning: '荒原裡的守望', unlockAt: 148, tier: 3, arch: 'spike', stem: '#4A5D4E', c1: '#EC4899', c2: '#FBCFE8' },
-            { id: 'lemon_tree', name: '青檸果樹', meaning: '酸甜清新的青春', unlockAt: 160, tier: 3, arch: 'roundTree', trunk: '#6B4F4B', c1: '#22C55E', c2: '#FDE047' },
+            // --- Tier 3: 果實花木 (130 ~ 260 篇) ---
+            { id: 'hydrangea', name: '無盡夏繡球', meaning: '圓滿與團聚', unlockAt: 130, tier: 3, arch: 'puff', stem: '#4D7C5B', c1: '#818CF8', c2: '#C7D2FE' },
+            { id: 'rose', name: '紅玫瑰叢', meaning: '熱烈與真心', unlockAt: 150, tier: 3, arch: 'bush', stem: '#365E47', c1: '#15803D', c2: '#E11D48' },
+            { id: 'peony', name: '粉牡丹叢', meaning: '濃情與圓滿', unlockAt: 170, tier: 3, arch: 'puff', stem: '#4D7C5B', c1: '#F43F5E', c2: '#FDA4AF' },
+            { id: 'gardenia', name: '梔子花', meaning: '永恆的約定', unlockAt: 190, tier: 3, arch: 'flower', stem: '#2D5A43', c1: '#FFFFFF', c2: '#F8FAFC', center: '#FDE047' },
+            { id: 'cotton', name: '棉花灌木', meaning: '柔軟溫暖的擁抱', unlockAt: 210, tier: 3, arch: 'bush', stem: '#6B4F4B', c1: '#94A3B8', c2: '#FFFFFF' },
+            { id: 'marigold', name: '金盞花叢', meaning: '陽光照進心房', unlockAt: 230, tier: 3, arch: 'flower', stem: '#4D7C5B', c1: '#FB923C', c2: '#FDBA74', center: '#9A3412' },
+            { id: 'heath', name: '石楠花叢', meaning: '荒原裡的守望', unlockAt: 250, tier: 3, arch: 'spike', stem: '#4A5D4E', c1: '#EC4899', c2: '#FBCFE8' },
+            { id: 'lemon_tree', name: '青檸果樹', meaning: '酸甜清新的青春', unlockAt: 275, tier: 3, arch: 'roundTree', trunk: '#6B4F4B', c1: '#22C55E', c2: '#FDE047' },
 
-            // --- Tier 4: 四季庭園樹 (190 ~ 320 篇，共 8 款) ---
-            { id: 'sakura_sapling', name: '初春櫻花樹', meaning: '初春的心動瞬間', unlockAt: 190, tier: 4, arch: 'roundTree', trunk: '#6B4F4B', c1: '#F9A8D4', c2: '#FCE7F3' },
-            { id: 'ginkgo_young', name: '金葉銀杏樹', meaning: '堅韌與永恆守候', unlockAt: 208, tier: 4, arch: 'roundTree', trunk: '#785A46', c1: '#FACC15', c2: '#FEF08A' },
-            { id: 'willow_young', name: '河畔垂柳', meaning: '依依不捨的溫柔', unlockAt: 227, tier: 4, arch: 'willow', trunk: '#5C473C', c1: '#4ADE80', c2: '#86EFAC' },
-            { id: 'maple_young', name: '秋日楓樹', meaning: '秋風裡的溫暖擁抱', unlockAt: 245, tier: 4, arch: 'layeredTree', trunk: '#5E3A32', c1: '#EA580C', c2: '#FB923C' },
-            { id: 'olive_tree', name: '地中海橄欖樹', meaning: '和平與歲月靜好', unlockAt: 264, tier: 4, arch: 'roundTree', trunk: '#736B60', c1: '#84A98C', c2: '#CAD2C5' },
-            { id: 'wisteria', name: '紫藤花樹', meaning: '沉醉於你的溫柔', unlockAt: 282, tier: 4, arch: 'willow', trunk: '#5C473C', c1: '#A855F7', c2: '#E9D5FF' },
-            { id: 'birch_tree', name: '林間白樺樹', meaning: '生機與純潔誓言', unlockAt: 301, tier: 4, arch: 'pine', trunk: '#F1F5F9', c1: '#A3E635', c2: '#D9F99D' },
-            { id: 'osmanthus', name: '八月桂花樹', meaning: '暗香浮動的陪伴', unlockAt: 320, tier: 4, arch: 'roundTree', trunk: '#6B4F4B', c1: '#3F6212', c2: '#FBBF24' },
+            // --- Tier 4: 四季庭園樹 (310 ~ 530 篇) ---
+            { id: 'sakura_sapling', name: '初春櫻花樹', meaning: '初春的心動瞬間', unlockAt: 310, tier: 4, arch: 'roundTree', trunk: '#6B4F4B', c1: '#F9A8D4', c2: '#FCE7F3' },
+            { id: 'ginkgo_young', name: '金葉銀杏樹', meaning: '堅韌與永恆守候', unlockAt: 340, tier: 4, arch: 'roundTree', trunk: '#785A46', c1: '#FACC15', c2: '#FEF08A' },
+            { id: 'willow_young', name: '河畔垂柳', meaning: '依依不捨的溫柔', unlockAt: 370, tier: 4, arch: 'willow', trunk: '#5C473C', c1: '#4ADE80', c2: '#86EFAC' },
+            { id: 'maple_young', name: '秋日楓樹', meaning: '秋風裡的溫暖擁抱', unlockAt: 400, tier: 4, arch: 'layeredTree', trunk: '#5E3A32', c1: '#EA580C', c2: '#FB923C' },
+            { id: 'olive_tree', name: '地中海橄欖樹', meaning: '和平與歲月靜好', unlockAt: 430, tier: 4, arch: 'roundTree', trunk: '#736B60', c1: '#84A98C', c2: '#CAD2C5' },
+            { id: 'wisteria', name: '紫藤花樹', meaning: '沉醉於你的溫柔', unlockAt: 460, tier: 4, arch: 'willow', trunk: '#5C473C', c1: '#A855F7', c2: '#E9D5FF' },
+            { id: 'birch_tree', name: '林間白樺樹', meaning: '生機與純潔誓言', unlockAt: 490, tier: 4, arch: 'pine', trunk: '#F1F5F9', c1: '#A3E635', c2: '#D9F99D' },
+            { id: 'osmanthus', name: '八月桂花樹', meaning: '暗香浮動的陪伴', unlockAt: 530, tier: 4, arch: 'roundTree', trunk: '#6B4F4B', c1: '#3F6212', c2: '#FBBF24' },
 
-            // --- Tier 5: 秘境森木 (360 ~ 540 篇，共 8 款) ---
-            { id: 'magnolia', name: '白玉蘭樹', meaning: '高潔與真摯靈魂', unlockAt: 360, tier: 5, arch: 'roundTree', trunk: '#6B4F4B', c1: '#F8FAFC', c2: '#FBCFE8' },
-            { id: 'yoshino_sakura', name: '染井吉野櫻', meaning: '滿山遍野的浪漫', unlockAt: 385, tier: 5, arch: 'grandTree', trunk: '#4A3531', c1: '#F472B6', c2: '#FBCFE8', glow: '#FCE7F3' },
-            { id: 'ancient_ginkgo', name: '百年老銀杏', meaning: '歷經時光的金色約定', unlockAt: 411, tier: 5, arch: 'grandTree', trunk: '#4A3828', c1: '#EAB308', c2: '#FDE047', glow: '#FEF9C3' },
-            { id: 'crimson_maple', name: '深秋紅楓古樹', meaning: '最濃烈的眷戀', unlockAt: 437, tier: 5, arch: 'grandTree', trunk: '#3E2723', c1: '#DC2626', c2: '#F97316', glow: '#FFEDD5' },
-            { id: 'jacaranda', name: '藍花楹', meaning: '在寧靜中等待愛情', unlockAt: 462, tier: 5, arch: 'grandTree', trunk: '#473C4A', c1: '#6366F1', c2: '#A5B4FC', glow: '#E0E7FF' },
-            { id: 'flame_tree', name: '夏日鳳凰木', meaning: '熾熱無悔的回憶', unlockAt: 488, tier: 5, arch: 'canopyTree', trunk: '#4A3525', c1: '#EF4444', c2: '#F59E0B', glow: '#FEF3C7' },
-            { id: 'baobab', name: '草原猴麵包樹', meaning: '厚實可靠的避風港', unlockAt: 514, tier: 5, arch: 'baobab', trunk: '#785A46', c1: '#4D7C0F', c2: '#84CC16' },
-            { id: 'spruce_pine', name: '高山雲杉', meaning: '四季常青的承諾', unlockAt: 540, tier: 5, arch: 'pine', trunk: '#3E2C23', c1: '#065F46', c2: '#10B981' },
+            // --- Tier 5: 秘境森木 (600 ~ 900 篇) ---
+            { id: 'magnolia', name: '白玉蘭樹', meaning: '高潔與真摯靈魂', unlockAt: 600, tier: 5, arch: 'roundTree', trunk: '#6B4F4B', c1: '#F8FAFC', c2: '#FBCFE8' },
+            { id: 'yoshino_sakura', name: '染井吉野櫻', meaning: '滿山遍野的浪漫', unlockAt: 650, tier: 5, arch: 'grandTree', trunk: '#4A3531', c1: '#F472B6', c2: '#FBCFE8', glow: '#FCE7F3' },
+            { id: 'ancient_ginkgo', name: '百年老銀杏', meaning: '歷經時光的金色約定', unlockAt: 700, tier: 5, arch: 'grandTree', trunk: '#4A3828', c1: '#EAB308', c2: '#FDE047', glow: '#FEF9C3' },
+            { id: 'crimson_maple', name: '深秋紅楓古樹', meaning: '最濃烈的眷戀', unlockAt: 750, tier: 5, arch: 'grandTree', trunk: '#3E2723', c1: '#DC2626', c2: '#F97316', glow: '#FFEDD5' },
+            { id: 'jacaranda', name: '藍花楹', meaning: '在寧靜中等待愛情', unlockAt: 800, tier: 5, arch: 'grandTree', trunk: '#473C4A', c1: '#6366F1', c2: '#A5B4FC', glow: '#E0E7FF' },
+            { id: 'flame_tree', name: '夏日鳳凰木', meaning: '熾熱無悔的回憶', unlockAt: 850, tier: 5, arch: 'canopyTree', trunk: '#4A3525', c1: '#EF4444', c2: '#F59E0B', glow: '#FEF3C7' },
+            { id: 'baobab', name: '草原猴麵包樹', meaning: '厚實可靠的避風港', unlockAt: 900, tier: 5, arch: 'baobab', trunk: '#785A46', c1: '#4D7C0F', c2: '#84CC16' },
+            { id: 'spruce_pine', name: '高山雲杉', meaning: '四季常青的承諾', unlockAt: 950, tier: 5, arch: 'pine', trunk: '#3E2C23', c1: '#065F46', c2: '#10B981' },
 
-            // --- Tier 6: 星輝古樹 (600 ~ 820 篇，共 6 款) ---
-            { id: 'rainbow_eucalyptus', name: '彩虹尤加利', meaning: '色彩斑斕的共同生活', unlockAt: 600, tier: 6, arch: 'grandTree', trunk: '#D97706', c1: '#14B8A6', c2: '#A855F7', glow: '#CCFBF1' },
-            { id: 'lantern_tree', name: '暮光燈籠果樹', meaning: '黑夜裡為你亮起的燈', unlockAt: 644, tier: 6, arch: 'grandTree', trunk: '#4A3828', c1: '#15803D', c2: '#FB923C', glow: '#FDE047' },
-            { id: 'jade_bamboo', name: '翠竹林', meaning: '節節高升與君子之約', unlockAt: 688, tier: 6, arch: 'bamboo', trunk: '#16A34A', c1: '#4ADE80', c2: '#86EFAC' },
-            { id: 'pearl_plum', name: '雪白珍珠梅', meaning: '細碎卻閃耀的幸福', unlockAt: 732, tier: 6, arch: 'grandTree', trunk: '#4A3531', c1: '#E2E8F0', c2: '#FFFFFF', glow: '#F8FAFC' },
-            { id: 'twilight_palm', name: '黃昏沙丘棕櫚', meaning: 'Alto 暮色裡的微風', unlockAt: 776, tier: 6, arch: 'palm', trunk: '#5C4033', c1: '#0D9488', c2: '#2DD4BF' },
-            { id: 'firefly_tree', name: '螢火精靈樹', meaning: '夏夜星光落滿枝頭', unlockAt: 820, tier: 6, arch: 'mysticTree', trunk: '#2E294E', c1: '#10B981', c2: '#FDE047', glow: '#FEF08A' },
+            // --- Tier 6: 星輝古樹 (1000 ~ 1400 篇) ---
+            { id: 'rainbow_eucalyptus', name: '彩虹尤加利', meaning: '色彩斑斕的共同生活', unlockAt: 1000, tier: 6, arch: 'grandTree', trunk: '#D97706', c1: '#14B8A6', c2: '#A855F7', glow: '#CCFBF1' },
+            { id: 'lantern_tree', name: '暮光燈籠果樹', meaning: '黑夜裡為你亮起的燈', unlockAt: 1080, tier: 6, arch: 'grandTree', trunk: '#4A3828', c1: '#15803D', c2: '#FB923C', glow: '#FDE047' },
+            { id: 'jade_bamboo', name: '翠竹林', meaning: '節節高升與君子之約', unlockAt: 1160, tier: 6, arch: 'bamboo', trunk: '#16A34A', c1: '#4ADE80', c2: '#86EFAC' },
+            { id: 'pearl_plum', name: '雪白珍珠梅', meaning: '細碎卻閃耀的幸福', unlockAt: 1240, tier: 6, arch: 'grandTree', trunk: '#4A3531', c1: '#E2E8F0', c2: '#FFFFFF', glow: '#F8FAFC' },
+            { id: 'twilight_palm', name: '黃昏沙丘棕櫚', meaning: 'Alto 暮色裡的微風', unlockAt: 1320, tier: 6, arch: 'palm', trunk: '#5C4033', c1: '#0D9488', c2: '#2DD4BF' },
+            { id: 'firefly_tree', name: '螢火精靈樹', meaning: '夏夜星光落滿枝頭', unlockAt: 1400, tier: 6, arch: 'mysticTree', trunk: '#2E294E', c1: '#10B981', c2: '#FDE047', glow: '#FEF08A' },
 
-            // --- Tier 7: 星辰神木 (900 ~ 1,080 篇，共 6 款) ---
-            { id: 'moon_crystal', name: '月光水晶樹', meaning: '清澈見底的靈魂共鳴', unlockAt: 900, tier: 7, arch: 'crystalTree', trunk: '#64748B', c1: '#38BDF8', c2: '#BAE6FD', glow: '#E0F2FE' },
-            { id: 'stardust_redwood', name: '星塵水杉', meaning: '直達星河的千年守望', unlockAt: 936, tier: 7, arch: 'pine', trunk: '#312E81', c1: '#818CF8', c2: '#FDE047' },
-            { id: 'glass_sakura', name: '琉璃櫻花王', meaning: '永不凋零的初見心動', unlockAt: 972, tier: 7, arch: 'mysticTree', trunk: '#4C1D95', c1: '#F472B6', c2: '#FDF2F8', glow: '#FBCFE8' },
-            { id: 'eternal_life', name: '永恆生命樹', meaning: '生生不息的愛與陪伴', unlockAt: 1008, tier: 7, arch: 'mysticTree', trunk: '#3F2E21', c1: '#34D399', c2: '#FBBF24', glow: '#ECFDF5' },
-            { id: 'celestial_willow', name: '銀河星瀑垂柳', meaning: '傾瀉而下的星光溫柔', unlockAt: 1044, tier: 7, arch: 'willow', trunk: '#312E81', c1: '#60A5FA', c2: '#FDE047' },
-            { id: 'cosmos_aurora', name: '創世極光神木', meaning: '寫滿 1,080 篇的宇宙級浪漫', unlockAt: 1080, tier: 7, arch: 'mysticTree', trunk: '#1E1B4B', c1: '#2DD4BF', c2: '#C084FC', glow: '#F3E8FF' }
+            // --- Tier 7: 星辰神木 (1500 ~ 1800 篇) ---
+            { id: 'moon_crystal', name: '月光水晶樹', meaning: '清澈見底的靈魂共鳴', unlockAt: 1500, tier: 7, arch: 'crystalTree', trunk: '#64748B', c1: '#38BDF8', c2: '#BAE6FD', glow: '#E0F2FE' },
+            { id: 'stardust_redwood', name: '星塵水杉', meaning: '直達星河的千年守望', unlockAt: 1560, tier: 7, arch: 'pine', trunk: '#312E81', c1: '#818CF8', c2: '#FDE047' },
+            { id: 'glass_sakura', name: '琉璃櫻花王', meaning: '永不凋零的初見心動', unlockAt: 1620, tier: 7, arch: 'mysticTree', trunk: '#4C1D95', c1: '#F472B6', c2: '#FDF2F8', glow: '#FBCFE8' },
+            { id: 'eternal_life', name: '永恆生命樹', meaning: '生生不息的愛與陪伴', unlockAt: 1680, tier: 7, arch: 'mysticTree', trunk: '#3F2E21', c1: '#34D399', c2: '#FBBF24', glow: '#ECFDF5' },
+            { id: 'celestial_willow', name: '銀河星瀑垂柳', meaning: '傾瀉而下的星光溫柔', unlockAt: 1740, tier: 7, arch: 'willow', trunk: '#312E81', c1: '#60A5FA', c2: '#FDE047' },
+            { id: 'cosmos_aurora', name: '創世極光神木', meaning: '寫滿 1,800 篇的宇宙級浪漫', unlockAt: 1800, tier: 7, arch: 'mysticTree', trunk: '#1E1B4B', c1: '#2DD4BF', c2: '#C084FC', glow: '#F3E8FF' }
         ];
 
         const SPECIES_MAP = Object.fromEntries(SPECIES_CATALOG.map(s => [s.id, s]));
@@ -1715,6 +1707,47 @@
          * 5. 潔淨初始花園與互動狀態
          * =========================================================
          */
+        
+        let draggedItemId = null;
+        function handleDragStart(e, id) {
+            draggedItemId = id;
+            e.dataTransfer.effectAllowed = 'move';
+            setTimeout(() => e.target.classList.add('opacity-50'), 0);
+        }
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            e.currentTarget.classList.add('border-b-4', 'border-amber-400');
+        }
+        function handleDragLeave(e) {
+            e.currentTarget.classList.remove('border-b-4', 'border-amber-400');
+        }
+        function handleDrop(e, targetId) {
+            e.preventDefault();
+            e.currentTarget.classList.remove('border-b-4', 'border-amber-400');
+            e.currentTarget.classList.remove('opacity-50');
+            if (document.getElementById(`plant-node-${draggedItemId}`)) {
+                document.getElementById(`plant-node-${draggedItemId}`).classList.remove('opacity-50');
+            }
+            if (!draggedItemId || draggedItemId === targetId) return;
+
+            const draggedIndex = memories.findIndex(m => m.id === draggedItemId);
+            const targetIndex = memories.findIndex(m => m.id === targetId);
+
+            if (draggedIndex !== -1 && targetIndex !== -1) {
+                const [draggedItem] = memories.splice(draggedIndex, 1);
+                memories.splice(targetIndex, 0, draggedItem);
+                
+                // Direct firebase push, it will re-render
+                db.ref('memories').set(memories).catch(err => console.error(err));
+            }
+            draggedItemId = null;
+        }
+        function handleDragEnd(e) {
+            e.target.classList.remove('opacity-50');
+            draggedItemId = null;
+        }
+
         let memories = [];
         let currentFilter = 'all';
         let currentMainView = 'garden';
@@ -1790,7 +1823,7 @@
 
             gateForm.addEventListener('submit', (e) => {
                 e.preventDefault();
-                if (passInput.value.trim() === SECRET_CODE) {
+                if (btoa(passInput.value.trim()) === SECRET_CODE_B64) {
                     playGentleChime([587.33, 739.99, 880.00, 1174.66]);
                     const gate = document.getElementById('gate-screen');
                     const app = document.getElementById('garden-app');
@@ -1798,6 +1831,7 @@
                     app.classList.remove('opacity-0', 'pointer-events-none');
                     updateStats();
                     renderGarden();
+                    if (!isAudioPlaying) setTimeout(()=>toggleAltoAudio(), 300);
                 } else {
                     gateError.classList.remove('opacity-0');
                     passInput.classList.add('animate-shake', 'border-rose-500');
@@ -1829,7 +1863,7 @@
                 const diff = nextLocked.unlockAt - totalPosts;
                 hintEl.textContent = `已解鎖 ${unlockedCount}/52 款草木 · 再寫 ${diff} 篇解鎖「${nextLocked.name}」`;
             } else {
-                hintEl.textContent = `🎉 已解鎖 1,080 篇全部 52 款草木神樹`;
+                hintEl.textContent = `🎉 已解鎖 1,800 篇全部 52 款草木神樹`;
             }
         }
 
@@ -1864,702 +1898,13 @@
                 const svg = item.bloomed ? getSpeciesSvg(item.species) : SPROUT_SVG;
                 const isSzenok = item.author === 'szenok';
                 const hasMusic = Boolean((item.song && item.song.title) || (item.songUrl && item.songUrl.trim()));
-                const offset = (index % 3 === 0) ? 'mb-2' : (index % 2 === 0 ? 'mb-0' : 'mb-4');
-
-                const plantEl = document.createElement('div');
-                plantEl.id = `plant-node-${item.id}`;
-                plantEl.className = `group relative flex flex-col items-center cursor-pointer select-none plant-sway ${offset} transition-transform duration-300 hover:scale-110`;
-                plantEl.onclick = () => openSpecimenModal(item.id);
-
-                const badgeText = !item.bloomed
-                    ? `<span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-ping mr-1"></span>待淋水`
-                    : (hasMusic ? `♪ ${item.date}` : item.date);
-
-                plantEl.innerHTML = `
-                    <div class="mb-1.5 opacity-92 group-hover:opacity-100 transition-all transform group-hover:-translate-y-1 bg-white/92 backdrop-blur-md px-2.5 py-0.5 rounded-full border ${isSzenok ? 'border-sky-300 text-sky-950' : 'border-rose-300 text-rose-950'} text-[10px] font-medium shadow-sm whitespace-nowrap flex items-center gap-1">
-                        <span class="w-1.5 h-1.5 rounded-full ${isSzenok ? 'bg-sky-500' : 'bg-rose-400'}"></span>
-                        <span>${badgeText}</span>
-                    </div>
-                    <div class="w-20 h-24 sm:w-24 sm:h-28 drop-shadow-[0_6px_10px_rgba(0,0,0,0.32)]">
-                        ${svg}
-                    </div>
-                `;
-                grid.appendChild(plantEl);
-            });
-        }
-
-        function filterGarden(type) {
-            currentFilter = type;
-            ['all', 'szenok', 'manyu'].forEach(t => {
-                const btn = document.getElementById(`filter-${t}`);
-                if (!btn) return;
-                if (t === type) {
-                    btn.className = 'px-2.5 py-1.5 rounded-full bg-slate-900 text-amber-50 shadow-xs transition-all flex items-center gap-1';
-                } else {
-                    btn.className = 'px-2.5 py-1.5 rounded-full bg-white/90 text-slate-700 hover:bg-white transition-all flex items-center gap-1';
-                }
-            });
-            renderGarden();
-        }
-
-        function switchMainView(view) {
-            currentMainView = view;
-            const meadow = document.getElementById('meadow-view');
-            const cal = document.getElementById('calendar-view');
-            const btnG = document.getElementById('view-btn-garden');
-            const btnC = document.getElementById('view-btn-calendar');
-            const filters = document.getElementById('garden-person-filters');
-
-            if (view === 'garden') {
-                meadow.classList.remove('hidden');
-                cal.classList.add('hidden');
-                filters.classList.remove('hidden');
-                btnG.className = 'px-3 py-1 rounded-full bg-slate-900 text-amber-50 font-medium transition-all';
-                btnC.className = 'px-3 py-1 rounded-full text-slate-600 hover:text-slate-900 font-medium transition-all';
-                renderGarden();
-            } else {
-                meadow.classList.add('hidden');
-                cal.classList.remove('hidden');
-                filters.classList.add('hidden');
-                btnC.className = 'px-3 py-1 rounded-full bg-slate-900 text-amber-50 font-medium transition-all';
-                btnG.className = 'px-3 py-1 rounded-full text-slate-600 hover:text-slate-900 font-medium transition-all';
-                renderCalendar();
-            }
-        }
-
-        function triggerRandomWind() {
-            if (memories.length === 0) {
-                showToast('🍃 微風拂過草地，種下第一顆種子後就能吹風回顧啦！');
-                return;
-            }
-            playGentleChime([587.33, 739.99, 880.00]);
-            const chosen = memories[Math.floor(Math.random() * memories.length)];
-            if (currentMainView !== 'garden') switchMainView('garden');
-            if (currentFilter !== 'all') filterGarden('all');
-
-            const node = document.getElementById(`plant-node-${chosen.id}`);
-            if (node) node.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-
-            showToast('🍃 一陣微風吹過草地，帶你重溫這段回憶...');
-            setTimeout(() => openSpecimenModal(chosen.id), 650);
-        }
-
-        /**
-         * =========================================================
-         * 7. 播種彈窗與 7 階植物圖鑑
-         * =========================================================
-         */
-        function renderSpeciesSelector() {
-            const container = document.getElementById('species-selector');
-            if (!container) return;
-            container.innerHTML = '';
-
-            const totalPosts = memories.length;
-            if (!isSpeciesUnlocked(selectedSpecies, totalPosts)) {
-                selectedSpecies = SPECIES_CATALOG[0].id;
-            }
-
-            const unlockedList = SPECIES_CATALOG.filter(s => totalPosts >= s.unlockAt);
-            const upcomingLocked = SPECIES_CATALOG.filter(s => totalPosts < s.unlockAt).slice(0, 4);
-            const displayList = [...unlockedList, ...upcomingLocked];
-
-            displayList.forEach(sp => {
-                const unlocked = totalPosts >= sp.unlockAt;
-                const isSelected = unlocked && sp.id === selectedSpecies;
-                const btn = document.createElement('button');
-                btn.type = 'button';
-
-                if (unlocked) {
-                    btn.className = `flex flex-col items-center p-1.5 rounded-2xl border transition-all ${isSelected ? 'bg-amber-100/90 border-amber-500 shadow-2xs scale-[1.03]' : 'bg-white border-slate-200 hover:border-amber-300'}`;
-                    btn.innerHTML = `
-                        <div class="w-8 h-10">${getSpeciesSvg(sp.id)}</div>
-                        <span class="text-[10px] text-slate-800 mt-1 font-medium leading-tight text-center truncate w-full">${sp.name}</span>
-                    `;
-                    btn.onclick = () => {
-                        selectedSpecies = sp.id;
-                        document.getElementById('selected-meaning-badge').textContent = `${sp.name} · ${sp.meaning}`;
-                        renderSpeciesSelector();
-                    };
-                } else {
-                    btn.className = 'relative flex flex-col items-center p-1.5 rounded-2xl border border-dashed border-slate-300 bg-slate-100/70 opacity-75 cursor-not-allowed';
-                    btn.innerHTML = `
-                        <div class="w-8 h-10 grayscale opacity-40">${getSpeciesSvg(sp.id)}</div>
-                        <span class="absolute top-1 right-1 text-[9px]">🔒</span>
-                        <span class="text-[9px] text-slate-500 mt-1 font-medium leading-tight text-center">T${sp.tier}·${sp.unlockAt}篇</span>
-                    `;
-                    btn.onclick = () => {
-                        showToast(`🔒 Tier ${sp.tier}「${sp.name}」需累積寫滿 ${sp.unlockAt} 篇解鎖（還差 ${sp.unlockAt - totalPosts} 篇）`);
-                    };
-                }
-                container.appendChild(btn);
-            });
-
-            const cur = SPECIES_MAP[selectedSpecies] || SPECIES_CATALOG[0];
-            document.getElementById('selected-meaning-badge').textContent = `${cur.name} · ${cur.meaning}`;
-        }
-
-        function openPlantModal() {
-            renderSpeciesSelector();
-            const modal = document.getElementById('plant-modal');
-            const card = document.getElementById('plant-modal-card');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            requestAnimationFrame(() => {
-                modal.classList.remove('opacity-0');
-                card.classList.remove('scale-95');
-            });
-        }
-
-        function closePlantModal() {
-            const modal = document.getElementById('plant-modal');
-            const card = document.getElementById('plant-modal-card');
-            modal.classList.add('opacity-0');
-            card.classList.add('scale-95');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            }, 300);
-        }
-
-        function handlePlantSubmit(e) {
-            e.preventDefault();
-            const author = document.querySelector('input[name="author"]:checked').value;
-            const note = document.getElementById('plant-note').value.trim();
-            const manualUrl = document.getElementById('song-manual-url').value.trim();
-            const rawSearchText = document.getElementById('song-search-input').value.trim();
-
-            if (!note) return;
-
-            let songData = currentSelectedSong;
-            if (!songData && rawSearchText) {
-                songData = {
-                    title: rawSearchText,
-                    artist: '',
-                    artwork: '',
-                    previewUrl: ''
-                };
-            }
-
-            const prevCount = memories.length;
-            const today = new Date();
-            const dateStr = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
-
-            memories.push({
-                id: Date.now(),
-                author,
-                species: selectedSpecies,
-                bloomed: false,
-                date: dateStr,
-                note,
-                song: songData,
-                songUrl: manualUrl
-            });
-
-            const newCount = memories.length;
-            selectedCalDate = dateStr;
-            calYear = today.getFullYear();
-            calMonth = today.getMonth();
-            saveMemories();
-
-            const newlyUnlocked = SPECIES_CATALOG.filter(s => s.unlockAt > prevCount && s.unlockAt <= newCount);
-
-            document.getElementById('plant-form').reset();
-            clearSelectedSong();
-            document.getElementById('song-search-results').classList.add('hidden');
-            document.getElementById('char-count').textContent = '0 / 1000';
-            closePlantModal();
-            playGentleChime([587.33, 739.99, 880.00, 1174.66]);
-
-            if (newlyUnlocked.length > 0) {
-                showToast(`🎉 寫滿 ${newCount} 篇！解鎖新草木：「${newlyUnlocked.map(s => s.name).join('、')}」！`);
-            } else {
-                showToast('🌱 種子已埋下！點擊草地上的小嫩芽幫它淋水開花');
-            }
-
-            if (currentMainView === 'garden') {
-                setTimeout(() => {
-                    const container = document.getElementById('meadow-scroll-container');
-                    container.scrollTo({ left: container.scrollWidth, behavior: 'smooth' });
-                }, 200);
-            }
-        }
-
-        function openAlmanacModal() {
-            const totalPosts = memories.length;
-            const unlockedCount = SPECIES_CATALOG.filter(s => totalPosts >= s.unlockAt).length;
-
-            document.getElementById('almanac-modal-progress-pill').textContent = `已解鎖 ${unlockedCount} / 52`;
-            document.getElementById('almanac-total-planted').textContent = totalPosts;
-
-            const nextLocked = SPECIES_CATALOG.find(s => totalPosts < s.unlockAt);
-            const nextLabel = document.getElementById('almanac-next-milestone');
-            if (nextLocked) {
-                nextLabel.textContent = `Tier ${nextLocked.tier} 目標：再寫 ${nextLocked.unlockAt - totalPosts} 篇，解鎖「${nextLocked.name}」！`;
-            } else {
-                nextLabel.textContent = `🎉 已集齊 1,080 篇全部 52 款草木神樹圖鑑！`;
-            }
-
-            const pct = Math.min(100, (totalPosts / 1080) * 100);
-            document.getElementById('almanac-progress-bar').style.width = `${Math.max(2, pct)}%`;
-
-            renderAlmanacGrid('all');
-
-            const modal = document.getElementById('almanac-modal');
-            const card = document.getElementById('almanac-modal-card');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            requestAnimationFrame(() => {
-                modal.classList.remove('opacity-0');
-                card.classList.remove('scale-95');
-            });
-        }
-
-        function renderAlmanacGrid(tierFilter) {
-            document.querySelectorAll('.alm-tab').forEach(tab => {
-                const isMatch = String(tab.dataset.tier) === String(tierFilter);
-                tab.className = isMatch
-                    ? 'alm-tab px-3 py-1 rounded-full text-xs bg-slate-900 text-white whitespace-nowrap'
-                    : 'alm-tab px-3 py-1 rounded-full text-xs bg-white text-slate-600 border border-slate-200 whitespace-nowrap';
-            });
-
-            const grid = document.getElementById('almanac-grid');
-            grid.innerHTML = '';
-            const totalPosts = memories.length;
-
-            const list = tierFilter === 'all'
-                ? SPECIES_CATALOG
-                : SPECIES_CATALOG.filter(s => s.tier === Number(tierFilter));
-
-            list.forEach(sp => {
-                const unlocked = totalPosts >= sp.unlockAt;
-                const plantedCount = memories.filter(m => m.species === sp.id).length;
-                const globalIndex = SPECIES_CATALOG.findIndex(s => s.id === sp.id) + 1;
-
-                const card = document.createElement('div');
-                card.className = unlocked
-                    ? 'bg-white border border-slate-200/90 rounded-2xl p-2.5 flex flex-col items-center text-center shadow-2xs'
-                    : 'bg-slate-100/80 border border-dashed border-slate-300 rounded-2xl p-2.5 flex flex-col items-center text-center opacity-80';
-
-                if (unlocked) {
-                    card.innerHTML = `
-                        <div class="w-full flex justify-between text-[9px] font-mono text-slate-400">
-                            <span>T${sp.tier}·#${String(globalIndex).padStart(2, '0')}</span>
-                            <span class="text-emerald-700 font-sans">已解鎖</span>
-                        </div>
-                        <div class="w-12 h-14 my-1">${getSpeciesSvg(sp.id)}</div>
-                        <p class="text-xs font-semibold text-slate-800 leading-tight">${sp.name}</p>
-                        <p class="text-[10px] text-slate-500 italic font-serif mt-0.5 line-clamp-1">${sp.meaning}</p>
-                        <span class="mt-1.5 text-[9px] text-slate-600 bg-slate-100 px-2 py-0.5 rounded-full">已種 ${plantedCount} 棵</span>
-                    `;
-                } else {
-                    card.innerHTML = `
-                        <div class="w-full flex justify-between text-[9px] font-mono text-slate-400">
-                            <span>T${sp.tier}·#${String(globalIndex).padStart(2, '0')}</span>
-                            <span>🔒</span>
-                        </div>
-                        <div class="w-12 h-14 my-1 grayscale opacity-30">${getSpeciesSvg(sp.id)}</div>
-                        <p class="text-xs font-medium text-slate-500 leading-tight">${sp.name}</p>
-                        <p class="text-[10px] text-slate-400 mt-0.5">花語待揭曉</p>
-                        <span class="mt-1.5 text-[9px] text-amber-900 bg-amber-100/90 px-2 py-0.5 rounded-full font-medium">寫滿 ${sp.unlockAt} 篇解鎖</span>
-                    `;
-                }
-                grid.appendChild(card);
-            });
-        }
-
-        function closeAlmanacModal() {
-            const modal = document.getElementById('almanac-modal');
-            const card = document.getElementById('almanac-modal-card');
-            modal.classList.add('opacity-0');
-            card.classList.add('scale-95');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            }, 300);
-        }
-
-        /**
-         * =========================================================
-         * 8. 標本回顧卡 (Specimen Card + 歌名試聽 & 一鍵開啟串流)
-         * =========================================================
-         */
-        function openSpecimenModal(id) {
-            const item = memories.find(m => m.id === id);
-            if (!item) return;
-
-            activeSpecimenId = id;
-            const index = memories.findIndex(m => m.id === id) + 1;
-            const isSzenok = item.author === 'szenok';
-            const sp = SPECIES_MAP[item.species] || SPECIES_CATALOG[0];
-
-            document.getElementById('spec-id').textContent = `NO. ${String(index).padStart(3, '0')}`;
-            document.getElementById('spec-date').textContent = item.date;
-            document.getElementById('spec-illustration').innerHTML = item.bloomed ? getSpeciesSvg(item.species) : SPROUT_SVG;
-            document.getElementById('spec-species-name').textContent = item.bloomed ? sp.name : `${sp.name}（嫩芽階段）`;
-            document.getElementById('spec-meaning').textContent = `· ${sp.meaning}`;
-
-            const badge = document.getElementById('spec-author-badge');
-            badge.textContent = isSzenok ? '思諾種下的' : '敏瑜種下的';
-            badge.className = `text-[11px] px-2.5 py-0.5 rounded-full font-medium ${isSzenok ? 'bg-sky-100 text-sky-900' : 'bg-rose-100 text-rose-900'}`;
-
-            document.getElementById('spec-note').textContent = item.note;
-            document.getElementById('spec-word-count').textContent = `${item.note.length} 字`;
-            document.getElementById('spec-signature').textContent = isSzenok ? 'Planted by Szenok' : 'Planted by Manyu';
-
-            // 音樂區塊處理
-            const musicBox = document.getElementById('spec-music-box');
-            const artEl = document.getElementById('spec-song-art');
-            const fallbackIcon = document.getElementById('spec-song-fallback-icon');
-            const titleEl = document.getElementById('spec-song-title');
-            const artistEl = document.getElementById('spec-song-artist');
-            const audioWrapper = document.getElementById('spec-audio-wrapper');
-            const audioPlayer = document.getElementById('spec-audio-player');
-            const platformLinks = document.getElementById('spec-platform-links');
-
-            const hasSongObj = item.song && item.song.title;
-            const hasManualUrl = item.songUrl && item.songUrl.trim() !== '';
-
-            if (hasSongObj || hasManualUrl) {
-                musicBox.classList.remove('hidden');
-                const songTitle = hasSongObj ? item.song.title : '分享的旋律';
-                const songArtist = hasSongObj ? item.song.artist : item.songUrl;
-                const queryStr = encodeURIComponent(`${songTitle} ${hasSongObj && item.song.artist ? item.song.artist : ''}`.trim());
-
-                titleEl.textContent = songTitle;
-                artistEl.textContent = songArtist || '點擊下方收聽完整歌曲';
-
-                if (hasSongObj && item.song.artwork) {
-                    artEl.src = item.song.artwork;
-                    artEl.classList.remove('hidden');
-                    fallbackIcon.classList.add('hidden');
-                } else {
-                    artEl.classList.add('hidden');
-                    fallbackIcon.classList.remove('hidden');
-                }
-
-                // 若有 30 秒高音質預覽音訊，顯示 HTML5 Audio 播放器
-                if (hasSongObj && item.song.previewUrl) {
-                    audioWrapper.classList.remove('hidden');
-                    audioPlayer.src = item.song.previewUrl;
-                    audioPlayer.onplay = () => setAudioDucked(true);
-                    audioPlayer.onpause = () => setAudioDucked(false);
-                    audioPlayer.onended = () => setAudioDucked(false);
-                } else {
-                    audioWrapper.classList.add('hidden');
-                    audioPlayer.pause();
-                    audioPlayer.src = '';
-                }
-
-                // 生成 YouTube Music / Spotify / YouTube 一鍵跳轉按鈕
-                let linksHtml = '';
-                if (hasManualUrl && /^https?:\/\//i.test(item.songUrl.trim())) {
-                    linksHtml += `<a href="${escapeHtml(item.songUrl.trim())}" target="_blank" rel="noopener noreferrer" class="text-[11px] px-2.5 py-1 rounded-full bg-slate-900 text-amber-50 font-medium hover:bg-slate-800">🔗 開啟分享連結 ↗</a>`;
-                }
-                if (hasSongObj && item.song.title) {
-                    linksHtml += `
-                        <a href="https://music.youtube.com/search?q=${queryStr}" target="_blank" rel="noopener noreferrer" class="text-[11px] px-2.5 py-1 rounded-full bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-200 font-medium">▶ YouTube Music</a>
-                        <a href="https://open.spotify.com/search/${queryStr}" target="_blank" rel="noopener noreferrer" class="text-[11px] px-2.5 py-1 rounded-full bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 font-medium">● Spotify</a>
-                        <a href="https://www.youtube.com/results?search_query=${queryStr}" target="_blank" rel="noopener noreferrer" class="text-[11px] px-2.5 py-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium">YouTube ↗</a>
-                    `;
-                }
-                platformLinks.innerHTML = linksHtml;
-            } else {
-                musicBox.classList.add('hidden');
-                audioPlayer.pause();
-                audioPlayer.src = '';
-            }
-
-            const waterSec = document.getElementById('spec-water-section');
-            if (!item.bloomed) waterSec.classList.remove('hidden');
-            else waterSec.classList.add('hidden');
-
-            const modal = document.getElementById('specimen-modal');
-            const card = document.getElementById('specimen-modal-card');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            requestAnimationFrame(() => {
-                modal.classList.remove('opacity-0');
-                card.classList.remove('scale-95');
-            });
-        }
-
-        function closeSpecimenModal() {
-            const modal = document.getElementById('specimen-modal');
-            const card = document.getElementById('specimen-modal-card');
-            const audioPlayer = document.getElementById('spec-audio-player');
-            modal.classList.add('opacity-0');
-            card.classList.add('scale-95');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-                if (audioPlayer) {
-                    audioPlayer.pause();
-                    audioPlayer.src = '';
-                }
-                activeSpecimenId = null;
-                setAudioDucked(false);
-            }, 300);
-        }
-
-        function waterCurrentPlant() {
-            if (!activeSpecimenId) return;
-            const item = memories.find(m => m.id === activeSpecimenId);
-            if (!item || item.bloomed) return;
-
-            item.bloomed = true;
-            saveMemories();
-            playGentleChime([587.33, 739.99, 880.00, 1174.66]);
-
-            const sp = SPECIES_MAP[item.species] || SPECIES_CATALOG[0];
-            const illus = document.getElementById('spec-illustration');
-            illus.innerHTML = getSpeciesSvg(item.species);
-            illus.classList.remove('animate-bloom');
-            void illus.offsetWidth;
-            illus.classList.add('animate-bloom');
-
-            document.getElementById('spec-species-name').textContent = sp.name;
-            document.getElementById('spec-water-section').classList.add('hidden');
-            showToast(`💧 灌溉完成！「${sp.name}」在草地上開花了`);
-        }
-
-        /**
-         * =========================================================
-         * 9. 回憶日曆視角 (僅在 2026年11月5日 保留一枚低調星標「相識的那一天」)
-         * =========================================================
-         */
-        function changeCalendarMonth(delta) {
-            calMonth += delta;
-            if (calMonth < 0) { calMonth = 11; calYear -= 1; }
-            else if (calMonth > 11) { calMonth = 0; calYear += 1; }
-            renderCalendar();
-        }
-
-        function jumpToTodayInCalendar() {
-            const now = new Date();
-            calYear = now.getFullYear();
-            calMonth = now.getMonth();
-            selectedCalDate = formatTodayDot();
-            renderCalendar();
-        }
-
-        function renderCalendar() {
-            document.getElementById('calendar-month-label').textContent = `${calYear}年 ${calMonth + 1}月`;
-            const grid = document.getElementById('calendar-days-grid');
-            grid.innerHTML = '';
-
-            const firstDay = new Date(calYear, calMonth, 1).getDay();
-            const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
-
-            const byDate = {};
-            memories.forEach(m => {
-                if (!byDate[m.date]) byDate[m.date] = [];
-                byDate[m.date].push(m);
-            });
-
-            for (let i = 0; i < firstDay; i++) {
-                const empty = document.createElement('div');
-                empty.className = 'h-14 sm:h-16 rounded-2xl bg-slate-100/40';
-                grid.appendChild(empty);
-            }
-
-            for (let d = 1; d <= daysInMonth; d++) {
-                const dateStr = `${calYear}.${String(calMonth + 1).padStart(2, '0')}.${String(d).padStart(2, '0')}`;
-                const list = byDate[dateStr] || [];
-                const has = list.length > 0;
-                const sel = selectedCalDate === dateStr;
-                const isMetDay = dateStr === MET_DATE_DOT;
-
-                const cell = document.createElement('button');
-                cell.type = 'button';
-                cell.onclick = () => { selectedCalDate = dateStr; renderCalendar(); };
-
-                cell.className = `h-14 sm:h-16 rounded-2xl p-1 sm:p-1.5 flex flex-col items-center justify-between border transition-all ${
-                    sel ? 'bg-amber-100/90 border-amber-500 shadow-xs scale-[1.03]' :
-                    isMetDay ? 'bg-amber-50/70 border-amber-300/80 hover:border-amber-400' :
-                    has ? 'bg-white border-slate-200 hover:border-amber-400' :
-                          'bg-slate-50/70 border-transparent text-slate-400'
-                }`;
-
-                if (has) {
-                    const first = list[0];
-                    const miniSvg = first.bloomed ? getSpeciesSvg(first.species) : SPROUT_SVG;
-                    const hasSong = list.some(e => Boolean(e.song && e.song.title) || Boolean(e.songUrl && e.songUrl.trim()));
-                    const dots = list.slice(0, 3).map(e => `<span class="w-1.5 h-1.5 rounded-full ${e.author === 'szenok' ? 'bg-sky-500' : 'bg-rose-400'}"></span>`).join('');
-
-                    cell.innerHTML = `
-                        <div class="w-full flex items-center justify-between px-0.5">
-                            <span class="text-[11px] font-semibold text-slate-800">${d}</span>
-                            ${isMetDay ? '<span class="text-[9px] text-amber-600">✦</span>' : (hasSong ? '<span class="text-[9px] text-amber-700 font-bold">♪</span>' : '')}
-                        </div>
-                        <div class="w-7 h-7 sm:w-8 sm:h-8 -my-1">${miniSvg}</div>
-                        <div class="flex items-center gap-0.5">${dots}</div>
-                    `;
-                } else if (isMetDay) {
-                    cell.innerHTML = `
-                        <div class="w-full flex items-center justify-between px-0.5">
-                            <span class="text-[11px] font-semibold text-amber-800">${d}</span>
-                            <span class="text-[10px] text-amber-500">✦</span>
-                        </div>
-                        <span class="text-[9px] text-amber-700/80 leading-none">相識日</span>
-                        <span class="w-1 h-1 rounded-full bg-amber-400"></span>
-                    `;
-                } else {
-                    cell.innerHTML = `<div class="w-full text-left px-0.5"><span class="text-[11px]">${d}</span></div><span class="text-[10px] opacity-25">·</span>`;
-                }
-                grid.appendChild(cell);
-            }
-
-            renderCalendarDayEntries(selectedCalDate, byDate[selectedCalDate] || []);
-        }
-
-        function renderCalendarDayEntries(dateStr, list) {
-            const isMetDay = dateStr === MET_DATE_DOT;
-            document.getElementById('cal-panel-title').textContent = isMetDay ? `${dateStr} · 相識的那一天 ✦` : `${dateStr} 的回憶`;
-            document.getElementById('cal-panel-subtitle').textContent = list.length > 0
-                ? `這天共種下了 ${list.length} 棵植物`
-                : (isMetDay ? '故事悄然開始的一天' : '這一天還沒有種下植物喔');
-
-            const container = document.getElementById('cal-entries-list');
-            container.innerHTML = '';
-
-            if (isMetDay) {
-                const milestoneBanner = document.createElement('div');
-                milestoneBanner.className = 'p-3.5 rounded-2xl bg-amber-50/90 border border-amber-200/80 text-xs text-slate-700 leading-relaxed';
-                milestoneBanner.innerHTML = `
-                    <div class="font-medium text-amber-900 flex items-center gap-1.5">
-                        <span>✦ 2026年11月5日 · 相識的那一天</span>
-                    </div>
-                    <p class="text-[11px] text-slate-500 mt-1">留在日曆上的一枚溫柔印記（不計入植物篇數）。</p>
-                `;
-                container.appendChild(milestoneBanner);
-            }
-
-            if (list.length === 0) {
-                const emptyBox = document.createElement('div');
-                emptyBox.className = 'text-center py-8 px-4 bg-slate-50 rounded-2xl border border-dashed border-slate-200';
-                emptyBox.innerHTML = `
-                    <p class="text-xs text-slate-500">這一天是靜謐的空白頁</p>
-                    <button onclick="openPlantModal()" class="mt-3 text-xs px-3.5 py-1.5 rounded-full bg-slate-900 text-amber-50">+ 種下新想法</button>
-                `;
-                container.appendChild(emptyBox);
-                return;
-            }
-
-            list.forEach(item => container.appendChild(createCalendarEntryCard(item)));
-        }
-
-        function showAllTimelineInPanel() {
-            document.getElementById('cal-panel-title').textContent = `全部時間軸 (${memories.length} 篇)`;
-            document.getElementById('cal-panel-subtitle').textContent = '依時間順序重溫所有文字與旋律';
-            const container = document.getElementById('cal-entries-list');
-            container.innerHTML = '';
-
-            if (memories.length === 0) {
-                container.innerHTML = `<div class="text-center py-8 text-xs text-slate-400">尚未有種下的想法喔 🌱</div>`;
-                return;
-            }
-
-            const sorted = [...memories].sort((a, b) => b.date.localeCompare(a.date) || b.id - a.id);
-            sorted.forEach(item => container.appendChild(createCalendarEntryCard(item, true)));
-        }
-
-        function createCalendarEntryCard(item, showDate = false) {
-            const sp = SPECIES_MAP[item.species] || SPECIES_CATALOG[0];
-            const svg = item.bloomed ? getSpeciesSvg(item.species) : SPROUT_SVG;
-            const isSzenok = item.author === 'szenok';
-            const songName = (item.song && item.song.title) ? item.song.title : (item.songUrl ? '分享的旋律' : '');
-
-            const card = document.createElement('div');
-            card.className = 'p-3 rounded-2xl bg-slate-50 hover:bg-white border border-slate-200/80 hover:border-amber-400 transition-all cursor-pointer flex items-start gap-3 shadow-2xs';
-            card.onclick = () => openSpecimenModal(item.id);
-
-            card.innerHTML = `
-                <div class="w-11 h-12 shrink-0 bg-white rounded-xl p-1 border border-slate-100">${svg}</div>
-                <div class="flex-1 min-w-0">
-                    <div class="flex items-center justify-between gap-2">
-                        <div class="flex items-center gap-1.5">
-                            <span class="text-[10px] px-2 py-0.5 rounded-full font-medium ${isSzenok ? 'bg-sky-100 text-sky-900' : 'bg-rose-100 text-rose-900'}">${isSzenok ? '思諾' : '敏瑜'}</span>
-                            <span class="text-xs font-semibold text-slate-800">${sp.name}</span>
-                        </div>
-                        ${showDate ? `<span class="text-[10px] font-mono text-slate-400">${item.date}</span>` : ''}
-                    </div>
-                    <p class="text-xs text-slate-600 line-clamp-2 mt-1 leading-relaxed">${escapeHtml(item.note)}</p>
-                    ${songName ? `<span class="mt-1.5 inline-block text-[10px] text-amber-800 bg-amber-100/80 px-2 py-0.5 rounded-full truncate max-w-full">♪ ${escapeHtml(songName)}</span>` : ''}
-                </div>
-            `;
-            return card;
-        }
-
-        /**
-         * =========================================================
-         * 10. JSON 備份匯出與匯入
-         * =========================================================
-         */
-        function openBackupModal() {
-            const modal = document.getElementById('backup-modal');
-            const card = document.getElementById('backup-modal-card');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            requestAnimationFrame(() => {
-                modal.classList.remove('opacity-0');
-                card.classList.remove('scale-95');
-            });
-        }
-
-        function closeBackupModal() {
-            const modal = document.getElementById('backup-modal');
-            const card = document.getElementById('backup-modal-card');
-            modal.classList.add('opacity-0');
-            card.classList.add('scale-95');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-            }, 300);
-        }
-
-        function exportMemoriesJson() {
-            const blob = new Blob([JSON.stringify(memories, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `our-thoughts-garden-${new Date().toISOString().slice(0, 10)}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
-            showToast('💾 已下載花園備份檔 (.json)');
-        }
-
-        function importMemoriesJson(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                try {
-                    const imported = JSON.parse(e.target.result);
-                    if (Array.isArray(imported)) {
-                        memories = imported;
-                        saveMemories();
-                        closeBackupModal();
-                        showToast(`✅ 成功還原 ${memories.length} 篇花園回憶！`);
-                    }
-                } catch (err) {
-                    showToast('❌ 檔案格式不正確，請選擇有效的備份檔');
-                }
-            };
-            reader.readAsText(file);
-        }
-
-        function escapeHtml(str) {
-            return String(str).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
-        }
-
-        let toastTimer = null;
-        function showToast(message) {
-            const toast = document.getElementById('toast-msg');
-            toast.textContent = message;
-            toast.classList.remove('opacity-0', '-translate-y-2');
-            if (toastTimer) clearTimeout(toastTimer);
-            toastTimer = setTimeout(() => toast.classList.add('opacity-0', '-translate-y-2'), 3200);
-        }
-    </script>
-</body>
-</html>
+                const offset = (index % 3 === 0) ? 'mb-3' : (index % 2 === 0 ? 'mb-0' : 'mb-6');
+                const sp_data = SPECIES_MAP[item.species] || SPECIES_CATALOG[0];
+                const tier = item.bloomed ? sp_data.tier : 1;
+                
+                let sizeClasses = "w-16 h-20 sm:w-20 sm:h-24"; 
+                if (tier === 2) sizeClasses = "w-20 h-28 sm:w-24 sm:h-32";
+                if (tier === 3) sizeClasses = "w-24 h-32 sm:w-28 sm:h-36";
+                if (tier === 4) sizeClasses = "w-32 h-40 sm:w-36 sm:h-48";
+                if (tier === 5) sizeClasses = "w-40 h-52 sm:w-48 sm:h-64";
+                if (tier === 6) sizeClasses = "w-5
