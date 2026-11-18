@@ -229,8 +229,7 @@
             background: linear-gradient(90deg, transparent, rgba(255,255,255,0.55), transparent);
             animation: windStream linear infinite;
         }
-
-        /* 聲波律動動畫 */
+/* 聲波律動動畫 */
         @keyframes eqPulse {
             0%, 100% { height: 4px; }
             50% { height: 13px; }
@@ -243,6 +242,12 @@
         }
         .eq-bar:nth-child(2) { animation-delay: 0.25s; }
         .eq-bar:nth-child(3) { animation-delay: 0.5s; }
+
+        /* Drag and Drop visual indicators */
+        .border-l-4 { border-left-width: 4px; }
+        .border-r-4 { border-right-width: 4px; }
+        .pl-2 { padding-left: 0.5rem; }
+        .pr-2 { padding-right: 0.5rem; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-amber-200 selection:text-slate-900" data-atmosphere="dusk" data-weather="clear">
@@ -276,7 +281,7 @@
     </div>
 
     <!-- =========================================================
-         1. 秘密暗號大門 (Secret Code Gate)
+         1. 秘密暗號大門 (Secret Code Gate: 0627 · Our Thoughts Garden)
          ========================================================= -->
     <div id="gate-screen" class="fixed inset-0 z-50 flex flex-col items-center justify-center p-5 transition-all duration-1000">
         <!-- 大門右上角音樂開關 -->
@@ -394,7 +399,7 @@
                     </div>
                 </div>
 
-                <!-- 下層：天氣狀態 + 圖鑑 + 備份 + 桌面版 Alto 晨光琴控制 -->
+                <!-- 下層：香港實時 / 日夜天氣氛圍預覽切換 + 圖鑑 + 備份 + 桌面版 Alto 晨光琴控制 -->
                 <div class="pt-2.5 border-t border-slate-200/70 flex flex-wrap items-center justify-between gap-2">
                     <div class="flex items-center gap-1 bg-slate-100/90 px-3 py-1.5 rounded-full border border-slate-200/70 text-[11px] text-slate-500 font-medium">✨ 天氣已與香港實時同步</div>
 
@@ -815,7 +820,7 @@
         const firebaseConfig = {
             apiKey: "AIzaSyBd2hpAQZhamegODtckmRIBdypbWwMlqqo",
             authDomain: "ourthoughts-63960.firebaseapp.com",
-            databaseURL: "https://ourthoughts-63960-default-rtdb.asia-southeast1.firebasedatabase.app",
+            databaseURL: "https://ourthoughts-63960-default-rtdb.firebaseio.com",
             projectId: "ourthoughts-63960",
             storageBucket: "ourthoughts-63960.firebasestorage.app",
             messagingSenderId: "193724153704",
@@ -893,7 +898,7 @@
 
             // --- Tier 6: 星輝古樹 (1000 ~ 1400 篇) ---
             { id: 'rainbow_eucalyptus', name: '彩虹尤加利', meaning: '色彩斑斕的共同生活', unlockAt: 1000, tier: 6, arch: 'grandTree', trunk: '#D97706', c1: '#14B8A6', c2: '#A855F7', glow: '#CCFBF1' },
-            { id: 'lantern_tree', name: '暮光燈籠果樹', meaning: '黑夜裡為你亮起的燈', unlockAt: 1080, tier: 6, arch: 'grandTree', trunk: '#4A3828', c1: '#15803D', c2: '#FB923C', glow: '#FDE047' },
+            { id: 'lantern_tree', name: '暮光燈籠果樹', meaning: '黑夜裡為你亮起的燈', unlockAt: 1800, tier: 6, arch: 'grandTree', trunk: '#4A3828', c1: '#15803D', c2: '#FB923C', glow: '#FDE047' },
             { id: 'jade_bamboo', name: '翠竹林', meaning: '節節高升與君子之約', unlockAt: 1160, tier: 6, arch: 'bamboo', trunk: '#16A34A', c1: '#4ADE80', c2: '#86EFAC' },
             { id: 'pearl_plum', name: '雪白珍珠梅', meaning: '細碎卻閃耀的幸福', unlockAt: 1240, tier: 6, arch: 'grandTree', trunk: '#4A3531', c1: '#E2E8F0', c2: '#FFFFFF', glow: '#F8FAFC' },
             { id: 'twilight_palm', name: '黃昏沙丘棕櫚', meaning: 'Alto 暮色裡的微風', unlockAt: 1320, tier: 6, arch: 'palm', trunk: '#5C4033', c1: '#0D9488', c2: '#2DD4BF' },
@@ -1709,42 +1714,87 @@
          */
         
         let draggedItemId = null;
+        let dragSrcEl = null;
+
         function handleDragStart(e, id) {
             draggedItemId = id;
+            dragSrcEl = e.target;
             e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', id); // Required for Firefox
             setTimeout(() => e.target.classList.add('opacity-50'), 0);
         }
+
         function handleDragOver(e) {
             e.preventDefault();
             e.dataTransfer.dropEffect = 'move';
-            e.currentTarget.classList.add('border-b-4', 'border-amber-400');
+            
+            // Highlight drop target visually
+            const targetNode = e.target.closest('.plant-sway');
+            if (targetNode && targetNode !== dragSrcEl) {
+                // Determine mouse position relative to target to show indicator (left or right)
+                const rect = targetNode.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                if (x < rect.width / 2) {
+                    targetNode.classList.add('border-l-4', 'border-amber-400', 'pl-2');
+                    targetNode.classList.remove('border-r-4', 'pr-2');
+                } else {
+                    targetNode.classList.add('border-r-4', 'border-amber-400', 'pr-2');
+                    targetNode.classList.remove('border-l-4', 'pl-2');
+                }
+            }
         }
+
         function handleDragLeave(e) {
-            e.currentTarget.classList.remove('border-b-4', 'border-amber-400');
+            const targetNode = e.target.closest('.plant-sway');
+            if (targetNode) {
+                targetNode.classList.remove('border-l-4', 'border-r-4', 'border-amber-400', 'pl-2', 'pr-2');
+            }
         }
+
         function handleDrop(e, targetId) {
             e.preventDefault();
-            e.currentTarget.classList.remove('border-b-4', 'border-amber-400');
-            e.currentTarget.classList.remove('opacity-50');
-            if (document.getElementById(`plant-node-${draggedItemId}`)) {
-                document.getElementById(`plant-node-${draggedItemId}`).classList.remove('opacity-50');
-            }
+            
+            // Clean up visual indicators on all plant nodes
+            document.querySelectorAll('.plant-sway').forEach(el => {
+                el.classList.remove('border-l-4', 'border-r-4', 'border-amber-400', 'pl-2', 'pr-2', 'opacity-50');
+            });
+            
             if (!draggedItemId || draggedItemId === targetId) return;
 
+            const targetNode = e.target.closest('.plant-sway');
+            let insertAfter = false;
+            if (targetNode) {
+                const rect = targetNode.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                if (x > rect.width / 2) {
+                    insertAfter = true;
+                }
+            }
+
             const draggedIndex = memories.findIndex(m => m.id === draggedItemId);
-            const targetIndex = memories.findIndex(m => m.id === targetId);
+            let targetIndex = memories.findIndex(m => m.id === targetId);
 
             if (draggedIndex !== -1 && targetIndex !== -1) {
                 const [draggedItem] = memories.splice(draggedIndex, 1);
+                
+                // Adjust target index if we are inserting after and the target shifted because of the splice
+                if (draggedIndex < targetIndex) targetIndex--; 
+                if (insertAfter) targetIndex++;
+
                 memories.splice(targetIndex, 0, draggedItem);
                 
-                // Direct firebase push, it will re-render
-                db.ref('memories').set(memories).catch(err => console.error(err));
+                db.ref('memories').set(memories).then(() => {
+                    // It will re-render automatically due to the .on('value') listener
+                }).catch(err => console.error(err));
             }
             draggedItemId = null;
         }
+
         function handleDragEnd(e) {
             e.target.classList.remove('opacity-50');
+            document.querySelectorAll('.plant-sway').forEach(el => {
+                el.classList.remove('border-l-4', 'border-r-4', 'border-amber-400', 'pl-2', 'pr-2');
+            });
             draggedItemId = null;
         }
 
@@ -1907,4 +1957,714 @@
                 if (tier === 3) sizeClasses = "w-24 h-32 sm:w-28 sm:h-36";
                 if (tier === 4) sizeClasses = "w-32 h-40 sm:w-36 sm:h-48";
                 if (tier === 5) sizeClasses = "w-40 h-52 sm:w-48 sm:h-64";
-                if (tier === 6) sizeClasses = "w-5
+                if (tier === 6) sizeClasses = "w-52 h-64 sm:w-60 sm:h-80";
+                if (tier === 7) sizeClasses = "w-64 h-80 sm:w-72 sm:h-96";
+
+                const plantEl = document.createElement('div');
+                plantEl.id = `plant-node-${item.id}`;
+                plantEl.className = `group relative flex flex-col items-center cursor-pointer select-none plant-sway ${offset} transition-transform duration-300 hover:scale-105`;
+                plantEl.onclick = () => openSpecimenModal(item.id);
+                
+                // Add Drag and Drop Events
+                plantEl.draggable = true;
+                plantEl.ondragstart = (e) => handleDragStart(e, item.id);
+                plantEl.ondragover = (e) => handleDragOver(e);
+                plantEl.ondragleave = (e) => handleDragLeave(e);
+                plantEl.ondrop = (e) => handleDrop(e, item.id);
+                plantEl.ondragend = (e) => handleDragEnd(e);
+
+                const badgeText = !item.bloomed
+                    ? `<span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-ping mr-1"></span>待淋水`
+                    : (hasMusic ? `♪ ${item.date}` : item.date);
+
+                plantEl.innerHTML = `
+                    <div class="mb-1.5 opacity-92 group-hover:opacity-100 transition-all transform group-hover:-translate-y-1 bg-white/92 backdrop-blur-md px-2.5 py-0.5 rounded-full border ${isSzenok ? 'border-sky-300 text-sky-950' : 'border-rose-300 text-rose-950'} text-[10px] font-medium shadow-sm whitespace-nowrap flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full ${isSzenok ? 'bg-sky-500' : 'bg-rose-400'}"></span>
+                        <span>${badgeText}</span>
+                    </div>
+                    <div class="${sizeClasses} drop-shadow-[0_6px_10px_rgba(0,0,0,0.32)] pointer-events-none">
+                        ${svg}
+                    </div>
+                `;
+                grid.appendChild(plantEl);
+            });
+        }
+
+        function filterGarden(type) {
+            currentFilter = type;
+            ['all', 'szenok', 'manyu'].forEach(t => {
+                const btn = document.getElementById(`filter-${t}`);
+                if (!btn) return;
+                if (t === type) {
+                    btn.className = 'px-2.5 py-1.5 rounded-full bg-slate-900 text-amber-50 shadow-xs transition-all flex items-center gap-1';
+                } else {
+                    btn.className = 'px-2.5 py-1.5 rounded-full bg-white/90 text-slate-700 hover:bg-white transition-all flex items-center gap-1';
+                }
+            });
+            renderGarden();
+        }
+
+        function switchMainView(view) {
+            currentMainView = view;
+            const meadow = document.getElementById('meadow-view');
+            const cal = document.getElementById('calendar-view');
+            const btnG = document.getElementById('view-btn-garden');
+            const btnC = document.getElementById('view-btn-calendar');
+            const filters = document.getElementById('garden-person-filters');
+
+            if (view === 'garden') {
+                meadow.classList.remove('hidden');
+                cal.classList.add('hidden');
+                filters.classList.remove('hidden');
+                btnG.className = 'px-3 py-1 rounded-full bg-slate-900 text-amber-50 font-medium transition-all';
+                btnC.className = 'px-3 py-1 rounded-full text-slate-600 hover:text-slate-900 font-medium transition-all';
+                renderGarden();
+            } else {
+                meadow.classList.add('hidden');
+                cal.classList.remove('hidden');
+                filters.classList.add('hidden');
+                btnC.className = 'px-3 py-1 rounded-full bg-slate-900 text-amber-50 font-medium transition-all';
+                btnG.className = 'px-3 py-1 rounded-full text-slate-600 hover:text-slate-900 font-medium transition-all';
+                renderCalendar();
+            }
+        }
+
+        function triggerRandomWind() {
+            if (memories.length === 0) {
+                showToast('🍃 微風拂過草地，種下第一顆種子後就能吹風回顧啦！');
+                return;
+            }
+            playGentleChime([587.33, 739.99, 880.00]);
+            const chosen = memories[Math.floor(Math.random() * memories.length)];
+            if (currentMainView !== 'garden') switchMainView('garden');
+            if (currentFilter !== 'all') filterGarden('all');
+
+            const node = document.getElementById(`plant-node-${chosen.id}`);
+            if (node) node.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+
+            showToast('🍃 一陣微風吹過草地，帶你重溫這段回憶...');
+            setTimeout(() => openSpecimenModal(chosen.id), 650);
+        }
+
+        /**
+         * =========================================================
+         * 7. 播種彈窗與 7 階植物圖鑑
+         * =========================================================
+         */
+        function renderSpeciesSelector() {
+            const container = document.getElementById('species-selector');
+            if (!container) return;
+            container.innerHTML = '';
+
+            const totalPosts = memories.length;
+            if (!isSpeciesUnlocked(selectedSpecies, totalPosts)) {
+                selectedSpecies = SPECIES_CATALOG[0].id;
+            }
+
+            const unlockedList = SPECIES_CATALOG.filter(s => totalPosts >= s.unlockAt);
+            const upcomingLocked = SPECIES_CATALOG.filter(s => totalPosts < s.unlockAt).slice(0, 4);
+            const displayList = [...unlockedList, ...upcomingLocked];
+
+            displayList.forEach(sp => {
+                const unlocked = totalPosts >= sp.unlockAt;
+                const isSelected = unlocked && sp.id === selectedSpecies;
+                const btn = document.createElement('button');
+                btn.type = 'button';
+
+                if (unlocked) {
+                    btn.className = `flex flex-col items-center p-1.5 rounded-2xl border transition-all ${isSelected ? 'bg-amber-100/90 border-amber-500 shadow-2xs scale-[1.03]' : 'bg-white border-slate-200 hover:border-amber-300'}`;
+                    btn.innerHTML = `
+                        <div class="w-8 h-10">${getSpeciesSvg(sp.id)}</div>
+                        <span class="text-[10px] text-slate-800 mt-1 font-medium leading-tight text-center truncate w-full">${sp.name}</span>
+                    `;
+                    btn.onclick = () => {
+                        selectedSpecies = sp.id;
+                        document.getElementById('selected-meaning-badge').textContent = `${sp.name} · ${sp.meaning}`;
+                        renderSpeciesSelector();
+                    };
+                } else {
+                    btn.className = 'relative flex flex-col items-center p-1.5 rounded-2xl border border-dashed border-slate-300 bg-slate-100/70 opacity-75 cursor-not-allowed';
+                    btn.innerHTML = `
+                        <div class="w-8 h-10 grayscale opacity-40">${getSpeciesSvg(sp.id)}</div>
+                        <span class="absolute top-1 right-1 text-[9px]">🔒</span>
+                        <span class="text-[9px] text-slate-500 mt-1 font-medium leading-tight text-center">T${sp.tier}·${sp.unlockAt}篇</span>
+                    `;
+                    btn.onclick = () => {
+                        showToast(`🔒 Tier ${sp.tier}「${sp.name}」需累積寫滿 ${sp.unlockAt} 篇解鎖（還差 ${sp.unlockAt - totalPosts} 篇）`);
+                    };
+                }
+                container.appendChild(btn);
+            });
+
+            const cur = SPECIES_MAP[selectedSpecies] || SPECIES_CATALOG[0];
+            document.getElementById('selected-meaning-badge').textContent = `${cur.name} · ${cur.meaning}`;
+        }
+
+        function openPlantModal() {
+            renderSpeciesSelector();
+            const modal = document.getElementById('plant-modal');
+            const card = document.getElementById('plant-modal-card');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            requestAnimationFrame(() => {
+                modal.classList.remove('opacity-0');
+                card.classList.remove('scale-95');
+            });
+        }
+
+        function closePlantModal() {
+            const modal = document.getElementById('plant-modal');
+            const card = document.getElementById('plant-modal-card');
+            modal.classList.add('opacity-0');
+            card.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        function handlePlantSubmit(e) {
+            e.preventDefault();
+            const author = document.querySelector('input[name="author"]:checked').value;
+            const note = document.getElementById('plant-note').value.trim();
+            const manualUrl = document.getElementById('song-manual-url').value.trim();
+            const rawSearchText = document.getElementById('song-search-input').value.trim();
+
+            if (!note) return;
+
+            let songData = currentSelectedSong;
+            if (!songData && rawSearchText) {
+                songData = {
+                    title: rawSearchText,
+                    artist: '',
+                    artwork: '',
+                    previewUrl: ''
+                };
+            }
+
+            const prevCount = memories.length;
+            const today = new Date();
+            const dateStr = `${today.getFullYear()}.${String(today.getMonth() + 1).padStart(2, '0')}.${String(today.getDate()).padStart(2, '0')}`;
+
+            memories.push({
+                id: Date.now(),
+                author,
+                species: selectedSpecies,
+                bloomed: false,
+                date: dateStr,
+                note,
+                song: songData,
+                songUrl: manualUrl
+            });
+
+            const newCount = memories.length;
+            selectedCalDate = dateStr;
+            calYear = today.getFullYear();
+            calMonth = today.getMonth();
+            saveMemories();
+
+            const newlyUnlocked = SPECIES_CATALOG.filter(s => s.unlockAt > prevCount && s.unlockAt <= newCount);
+
+            document.getElementById('plant-form').reset();
+            clearSelectedSong();
+            document.getElementById('song-search-results').classList.add('hidden');
+            document.getElementById('char-count').textContent = '0 / 1000';
+            closePlantModal();
+            playGentleChime([587.33, 739.99, 880.00, 1174.66]);
+
+            if (newlyUnlocked.length > 0) {
+                showToast(`🎉 寫滿 ${newCount} 篇！解鎖新草木：「${newlyUnlocked.map(s => s.name).join('、')}」！`);
+            } else {
+                showToast('🌱 種子已埋下！點擊草地上的小嫩芽幫它淋水開花');
+            }
+
+            if (currentMainView === 'garden') {
+                setTimeout(() => {
+                    const container = document.getElementById('meadow-scroll-container');
+                    container.scrollTo({ left: container.scrollWidth, behavior: 'smooth' });
+                }, 200);
+            }
+        }
+
+        function openAlmanacModal() {
+            const totalPosts = memories.length;
+            const unlockedCount = SPECIES_CATALOG.filter(s => totalPosts >= s.unlockAt).length;
+
+            document.getElementById('almanac-modal-progress-pill').textContent = `已解鎖 ${unlockedCount} / 52`;
+            document.getElementById('almanac-total-planted').textContent = totalPosts;
+
+            const nextLocked = SPECIES_CATALOG.find(s => totalPosts < s.unlockAt);
+            const nextLabel = document.getElementById('almanac-next-milestone');
+            if (nextLocked) {
+                nextLabel.textContent = `Tier ${nextLocked.tier} 目標：再寫 ${nextLocked.unlockAt - totalPosts} 篇，解鎖「${nextLocked.name}」！`;
+            } else {
+                nextLabel.textContent = `🎉 已集齊 1,800 篇全部 52 款草木神樹圖鑑！`;
+            }
+
+            const pct = Math.min(100, (totalPosts / 1800) * 100);
+            document.getElementById('almanac-progress-bar').style.width = `${Math.max(2, pct)}%`;
+
+            renderAlmanacGrid('all');
+
+            const modal = document.getElementById('almanac-modal');
+            const card = document.getElementById('almanac-modal-card');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            requestAnimationFrame(() => {
+                modal.classList.remove('opacity-0');
+                card.classList.remove('scale-95');
+            });
+        }
+
+        function renderAlmanacGrid(tierFilter) {
+            document.querySelectorAll('.alm-tab').forEach(tab => {
+                const isMatch = String(tab.dataset.tier) === String(tierFilter);
+                tab.className = isMatch
+                    ? 'alm-tab px-3 py-1 rounded-full text-xs bg-slate-900 text-white whitespace-nowrap'
+                    : 'alm-tab px-3 py-1 rounded-full text-xs bg-white text-slate-600 border border-slate-200 whitespace-nowrap';
+            });
+
+            const grid = document.getElementById('almanac-grid');
+            grid.innerHTML = '';
+            const totalPosts = memories.length;
+
+            const list = tierFilter === 'all'
+                ? SPECIES_CATALOG
+                : SPECIES_CATALOG.filter(s => s.tier === Number(tierFilter));
+
+            list.forEach(sp => {
+                const unlocked = totalPosts >= sp.unlockAt;
+                const plantedCount = memories.filter(m => m.species === sp.id).length;
+                const globalIndex = SPECIES_CATALOG.findIndex(s => s.id === sp.id) + 1;
+
+                const card = document.createElement('div');
+                card.className = unlocked
+                    ? 'bg-white border border-slate-200/90 rounded-2xl p-2.5 flex flex-col items-center text-center shadow-2xs'
+                    : 'bg-slate-100/80 border border-dashed border-slate-300 rounded-2xl p-2.5 flex flex-col items-center text-center opacity-80';
+
+                if (unlocked) {
+                    card.innerHTML = `
+                        <div class="w-full flex justify-between text-[9px] font-mono text-slate-400">
+                            <span>T${sp.tier}·#${String(globalIndex).padStart(2, '0')}</span>
+                            <span class="text-emerald-700 font-sans">已解鎖</span>
+                        </div>
+                        <div class="w-12 h-14 my-1">${getSpeciesSvg(sp.id)}</div>
+                        <p class="text-xs font-semibold text-slate-800 leading-tight">${sp.name}</p>
+                        <p class="text-[10px] text-slate-500 italic font-serif mt-0.5 line-clamp-1">${sp.meaning}</p>
+                        <span class="mt-1.5 text-[9px] text-slate-600 bg-slate-100 px-2 py-0.5 rounded-full">已種 ${plantedCount} 棵</span>
+                    `;
+                } else {
+                    card.innerHTML = `
+                        <div class="w-full flex justify-between text-[9px] font-mono text-slate-400">
+                            <span>T${sp.tier}·#${String(globalIndex).padStart(2, '0')}</span>
+                            <span>🔒</span>
+                        </div>
+                        <div class="w-12 h-14 my-1 grayscale opacity-30">${getSpeciesSvg(sp.id)}</div>
+                        <p class="text-xs font-medium text-slate-500 leading-tight">${sp.name}</p>
+                        <p class="text-[10px] text-slate-400 mt-0.5">花語待揭曉</p>
+                        <span class="mt-1.5 text-[9px] text-amber-900 bg-amber-100/90 px-2 py-0.5 rounded-full font-medium">寫滿 ${sp.unlockAt} 篇解鎖</span>
+                    `;
+                }
+                grid.appendChild(card);
+            });
+        }
+
+        function closeAlmanacModal() {
+            const modal = document.getElementById('almanac-modal');
+            const card = document.getElementById('almanac-modal-card');
+            modal.classList.add('opacity-0');
+            card.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        /**
+         * =========================================================
+         * 8. 標本回顧卡 (Specimen Card + 歌名試聽 & 一鍵開啟串流)
+         * =========================================================
+         */
+        function openSpecimenModal(id) {
+            const item = memories.find(m => m.id === id);
+            if (!item) return;
+
+            activeSpecimenId = id;
+            const index = memories.findIndex(m => m.id === id) + 1;
+            const isSzenok = item.author === 'szenok';
+            const sp = SPECIES_MAP[item.species] || SPECIES_CATALOG[0];
+
+            document.getElementById('spec-id').textContent = `NO. ${String(index).padStart(3, '0')}`;
+            document.getElementById('spec-date').textContent = item.date;
+            document.getElementById('spec-illustration').innerHTML = item.bloomed ? getSpeciesSvg(item.species) : SPROUT_SVG;
+            document.getElementById('spec-species-name').textContent = item.bloomed ? sp.name : `${sp.name}（嫩芽階段）`;
+            document.getElementById('spec-meaning').textContent = `· ${sp.meaning}`;
+
+            const badge = document.getElementById('spec-author-badge');
+            badge.textContent = isSzenok ? '思諾種下的' : '敏瑜種下的';
+            badge.className = `text-[11px] px-2.5 py-0.5 rounded-full font-medium ${isSzenok ? 'bg-sky-100 text-sky-900' : 'bg-rose-100 text-rose-900'}`;
+
+            document.getElementById('spec-note').textContent = item.note;
+            document.getElementById('spec-word-count').textContent = `${item.note.length} 字`;
+            document.getElementById('spec-signature').textContent = isSzenok ? 'Planted by Szenok' : 'Planted by Manyu';
+
+            // 音樂區塊處理
+            const musicBox = document.getElementById('spec-music-box');
+            const artEl = document.getElementById('spec-song-art');
+            const fallbackIcon = document.getElementById('spec-song-fallback-icon');
+            const titleEl = document.getElementById('spec-song-title');
+            const artistEl = document.getElementById('spec-song-artist');
+            const audioWrapper = document.getElementById('spec-audio-wrapper');
+            const audioPlayer = document.getElementById('spec-audio-player');
+            const platformLinks = document.getElementById('spec-platform-links');
+
+            const hasSongObj = item.song && item.song.title;
+            const hasManualUrl = item.songUrl && item.songUrl.trim() !== '';
+
+            if (hasSongObj || hasManualUrl) {
+                musicBox.classList.remove('hidden');
+                const songTitle = hasSongObj ? item.song.title : '分享的旋律';
+                const songArtist = hasSongObj ? item.song.artist : item.songUrl;
+                const queryStr = encodeURIComponent(`${songTitle} ${hasSongObj && item.song.artist ? item.song.artist : ''}`.trim());
+
+                titleEl.textContent = songTitle;
+                artistEl.textContent = songArtist || '點擊下方收聽完整歌曲';
+
+                if (hasSongObj && item.song.artwork) {
+                    artEl.src = item.song.artwork;
+                    artEl.classList.remove('hidden');
+                    fallbackIcon.classList.add('hidden');
+                } else {
+                    artEl.classList.add('hidden');
+                    fallbackIcon.classList.remove('hidden');
+                }
+
+                // 若有 30 秒高音質預覽音訊，顯示 HTML5 Audio 播放器
+                if (hasSongObj && item.song.previewUrl) {
+                    audioWrapper.classList.remove('hidden');
+                    audioPlayer.src = item.song.previewUrl;
+                    audioPlayer.onplay = () => setAudioDucked(true);
+                    audioPlayer.onpause = () => setAudioDucked(false);
+                    audioPlayer.onended = () => setAudioDucked(false);
+                    setTimeout(() => {
+                        audioPlayer.play().catch(e => console.log('Browser blocked autoplay. Awaiting interaction.', e));
+                    }, 150);
+                } else {
+                    audioWrapper.classList.add('hidden');
+                    audioPlayer.pause();
+                    audioPlayer.src = '';
+                }
+
+                // 生成 YouTube Music / Spotify / YouTube 一鍵跳轉按鈕
+                let linksHtml = '';
+                if (hasManualUrl && /^https?:\/\//i.test(item.songUrl.trim())) {
+                    linksHtml += `<a href="${escapeHtml(item.songUrl.trim())}" target="_blank" rel="noopener noreferrer" class="text-[11px] px-2.5 py-1 rounded-full bg-slate-900 text-amber-50 font-medium hover:bg-slate-800">🔗 開啟分享連結 ↗</a>`;
+                }
+                if (hasSongObj && item.song.title) {
+                    linksHtml += `
+                        <a href="https://music.youtube.com/search?q=${queryStr}" target="_blank" rel="noopener noreferrer" class="text-[11px] px-2.5 py-1 rounded-full bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-200 font-medium">▶ YouTube Music</a>
+                        <a href="https://open.spotify.com/search/${queryStr}" target="_blank" rel="noopener noreferrer" class="text-[11px] px-2.5 py-1 rounded-full bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 font-medium">● Spotify</a>
+                        <a href="https://www.youtube.com/results?search_query=${queryStr}" target="_blank" rel="noopener noreferrer" class="text-[11px] px-2.5 py-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium">YouTube ↗</a>
+                    `;
+                }
+                platformLinks.innerHTML = linksHtml;
+            } else {
+                musicBox.classList.add('hidden');
+                audioPlayer.pause();
+                audioPlayer.src = '';
+            }
+
+            const waterSec = document.getElementById('spec-water-section');
+            if (!item.bloomed) waterSec.classList.remove('hidden');
+            else waterSec.classList.add('hidden');
+
+            const modal = document.getElementById('specimen-modal');
+            const card = document.getElementById('specimen-modal-card');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            requestAnimationFrame(() => {
+                modal.classList.remove('opacity-0');
+                card.classList.remove('scale-95');
+            });
+        }
+
+        function closeSpecimenModal() {
+            const modal = document.getElementById('specimen-modal');
+            const card = document.getElementById('specimen-modal-card');
+            const audioPlayer = document.getElementById('spec-audio-player');
+            modal.classList.add('opacity-0');
+            card.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                if (audioPlayer) {
+                    audioPlayer.pause();
+                    audioPlayer.src = '';
+                }
+                activeSpecimenId = null;
+                setAudioDucked(false);
+            }, 300);
+        }
+
+        function waterCurrentPlant() {
+            if (!activeSpecimenId) return;
+            const item = memories.find(m => m.id === activeSpecimenId);
+            if (!item || item.bloomed) return;
+
+            item.bloomed = true;
+            saveMemories();
+            playGentleChime([587.33, 739.99, 880.00, 1174.66]);
+
+            const sp = SPECIES_MAP[item.species] || SPECIES_CATALOG[0];
+            const illus = document.getElementById('spec-illustration');
+            illus.innerHTML = getSpeciesSvg(item.species);
+            illus.classList.remove('animate-bloom');
+            void illus.offsetWidth;
+            illus.classList.add('animate-bloom');
+
+            document.getElementById('spec-species-name').textContent = sp.name;
+            document.getElementById('spec-water-section').classList.add('hidden');
+            showToast(`💧 灌溉完成！「${sp.name}」在草地上開花了`);
+        }
+
+        /**
+         * =========================================================
+         * 9. 回憶日曆視角 (僅在 2026年11月5日 保留一枚低調星標「相識的那一天」)
+         * =========================================================
+         */
+        function changeCalendarMonth(delta) {
+            calMonth += delta;
+            if (calMonth < 0) { calMonth = 11; calYear -= 1; }
+            else if (calMonth > 11) { calMonth = 0; calYear += 1; }
+            renderCalendar();
+        }
+
+        function jumpToTodayInCalendar() {
+            const now = new Date();
+            calYear = now.getFullYear();
+            calMonth = now.getMonth();
+            selectedCalDate = formatTodayDot();
+            renderCalendar();
+        }
+
+        function renderCalendar() {
+            document.getElementById('calendar-month-label').textContent = `${calYear}年 ${calMonth + 1}月`;
+            const grid = document.getElementById('calendar-days-grid');
+            grid.innerHTML = '';
+
+            const firstDay = new Date(calYear, calMonth, 1).getDay();
+            const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+
+            const byDate = {};
+            memories.forEach(m => {
+                if (!byDate[m.date]) byDate[m.date] = [];
+                byDate[m.date].push(m);
+            });
+
+            for (let i = 0; i < firstDay; i++) {
+                const empty = document.createElement('div');
+                empty.className = 'h-14 sm:h-16 rounded-2xl bg-slate-100/40';
+                grid.appendChild(empty);
+            }
+
+            for (let d = 1; d <= daysInMonth; d++) {
+                const dateStr = `${calYear}.${String(calMonth + 1).padStart(2, '0')}.${String(d).padStart(2, '0')}`;
+                const list = byDate[dateStr] || [];
+                const has = list.length > 0;
+                const sel = selectedCalDate === dateStr;
+                const isMetDay = dateStr === MET_DATE_DOT;
+
+                const cell = document.createElement('button');
+                cell.type = 'button';
+                cell.onclick = () => { selectedCalDate = dateStr; renderCalendar(); };
+
+                cell.className = `h-14 sm:h-16 rounded-2xl p-1 sm:p-1.5 flex flex-col items-center justify-between border transition-all ${
+                    sel ? 'bg-amber-100/90 border-amber-500 shadow-xs scale-[1.03]' :
+                    isMetDay ? 'bg-amber-50/70 border-amber-300/80 hover:border-amber-400' :
+                    has ? 'bg-white border-slate-200 hover:border-amber-400' :
+                          'bg-slate-50/70 border-transparent text-slate-400'
+                }`;
+
+                if (has) {
+                    const first = list[0];
+                    const miniSvg = first.bloomed ? getSpeciesSvg(first.species) : SPROUT_SVG;
+                    const hasSong = list.some(e => Boolean(e.song && e.song.title) || Boolean(e.songUrl && e.songUrl.trim()));
+                    const dots = list.slice(0, 3).map(e => `<span class="w-1.5 h-1.5 rounded-full ${e.author === 'szenok' ? 'bg-sky-500' : 'bg-rose-400'}"></span>`).join('');
+
+                    cell.innerHTML = `
+                        <div class="w-full flex items-center justify-between px-0.5">
+                            <span class="text-[11px] font-semibold text-slate-800">${d}</span>
+                            ${isMetDay ? '<span class="text-[9px] text-amber-600">✦</span>' : (hasSong ? '<span class="text-[9px] text-amber-700 font-bold">♪</span>' : '')}
+                        </div>
+                        <div class="w-7 h-7 sm:w-8 sm:h-8 -my-1">${miniSvg}</div>
+                        <div class="flex items-center gap-0.5">${dots}</div>
+                    `;
+                } else if (isMetDay) {
+                    cell.innerHTML = `
+                        <div class="w-full flex items-center justify-between px-0.5">
+                            <span class="text-[11px] font-semibold text-amber-800">${d}</span>
+                            <span class="text-[10px] text-amber-500">✦</span>
+                        </div>
+                        <span class="text-[9px] text-amber-700/80 leading-none">相識日</span>
+                        <span class="w-1 h-1 rounded-full bg-amber-400"></span>
+                    `;
+                } else {
+                    cell.innerHTML = `<div class="w-full text-left px-0.5"><span class="text-[11px]">${d}</span></div><span class="text-[10px] opacity-25">·</span>`;
+                }
+                grid.appendChild(cell);
+            }
+
+            renderCalendarDayEntries(selectedCalDate, byDate[selectedCalDate] || []);
+        }
+
+        function renderCalendarDayEntries(dateStr, list) {
+            const isMetDay = dateStr === MET_DATE_DOT;
+            document.getElementById('cal-panel-title').textContent = isMetDay ? `${dateStr} · 相識的那一天 ✦` : `${dateStr} 的回憶`;
+            document.getElementById('cal-panel-subtitle').textContent = list.length > 0
+                ? `這天共種下了 ${list.length} 棵植物`
+                : (isMetDay ? '故事悄然開始的一天' : '這一天還沒有種下植物喔');
+
+            const container = document.getElementById('cal-entries-list');
+            container.innerHTML = '';
+
+            if (isMetDay) {
+                const milestoneBanner = document.createElement('div');
+                milestoneBanner.className = 'p-3.5 rounded-2xl bg-amber-50/90 border border-amber-200/80 text-xs text-slate-700 leading-relaxed';
+                milestoneBanner.innerHTML = `
+                    <div class="font-medium text-amber-900 flex items-center gap-1.5">
+                        <span>✦ 2026年11月5日 · 相識的那一天</span>
+                    </div>
+                    <p class="text-[11px] text-slate-500 mt-1">留在日曆上的一枚溫柔印記（不計入植物篇數）。</p>
+                `;
+                container.appendChild(milestoneBanner);
+            }
+
+            if (list.length === 0) {
+                const emptyBox = document.createElement('div');
+                emptyBox.className = 'text-center py-8 px-4 bg-slate-50 rounded-2xl border border-dashed border-slate-200';
+                emptyBox.innerHTML = `
+                    <p class="text-xs text-slate-500">這一天是靜謐的空白頁</p>
+                    <button onclick="openPlantModal()" class="mt-3 text-xs px-3.5 py-1.5 rounded-full bg-slate-900 text-amber-50">+ 種下新想法</button>
+                `;
+                container.appendChild(emptyBox);
+                return;
+            }
+
+            list.forEach(item => container.appendChild(createCalendarEntryCard(item)));
+        }
+
+        function showAllTimelineInPanel() {
+            document.getElementById('cal-panel-title').textContent = `全部時間軸 (${memories.length} 篇)`;
+            document.getElementById('cal-panel-subtitle').textContent = '依時間順序重溫所有文字與旋律';
+            const container = document.getElementById('cal-entries-list');
+            container.innerHTML = '';
+
+            if (memories.length === 0) {
+                container.innerHTML = `<div class="text-center py-8 text-xs text-slate-400">尚未有種下的想法喔 🌱</div>`;
+                return;
+            }
+
+            const sorted = [...memories].sort((a, b) => b.date.localeCompare(a.date) || b.id - a.id);
+            sorted.forEach(item => container.appendChild(createCalendarEntryCard(item, true)));
+        }
+
+        function createCalendarEntryCard(item, showDate = false) {
+            const sp = SPECIES_MAP[item.species] || SPECIES_CATALOG[0];
+            const svg = item.bloomed ? getSpeciesSvg(item.species) : SPROUT_SVG;
+            const isSzenok = item.author === 'szenok';
+            const songName = (item.song && item.song.title) ? item.song.title : (item.songUrl ? '分享的旋律' : '');
+
+            const card = document.createElement('div');
+            card.className = 'p-3 rounded-2xl bg-slate-50 hover:bg-white border border-slate-200/80 hover:border-amber-400 transition-all cursor-pointer flex items-start gap-3 shadow-2xs';
+            card.onclick = () => openSpecimenModal(item.id);
+
+            card.innerHTML = `
+                <div class="w-11 h-12 shrink-0 bg-white rounded-xl p-1 border border-slate-100">${svg}</div>
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center justify-between gap-2">
+                        <div class="flex items-center gap-1.5">
+                            <span class="text-[10px] px-2 py-0.5 rounded-full font-medium ${isSzenok ? 'bg-sky-100 text-sky-900' : 'bg-rose-100 text-rose-900'}">${isSzenok ? '思諾' : '敏瑜'}</span>
+                            <span class="text-xs font-semibold text-slate-800">${sp.name}</span>
+                        </div>
+                        ${showDate ? `<span class="text-[10px] font-mono text-slate-400">${item.date}</span>` : ''}
+                    </div>
+                    <p class="text-xs text-slate-600 line-clamp-2 mt-1 leading-relaxed">${escapeHtml(item.note)}</p>
+                    ${songName ? `<span class="mt-1.5 inline-block text-[10px] text-amber-800 bg-amber-100/80 px-2 py-0.5 rounded-full truncate max-w-full">♪ ${escapeHtml(songName)}</span>` : ''}
+                </div>
+            `;
+            return card;
+        }
+
+        /**
+         * =========================================================
+         * 10. JSON 備份匯出與匯入
+         * =========================================================
+         */
+        function openBackupModal() {
+            const modal = document.getElementById('backup-modal');
+            const card = document.getElementById('backup-modal-card');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            requestAnimationFrame(() => {
+                modal.classList.remove('opacity-0');
+                card.classList.remove('scale-95');
+            });
+        }
+
+        function closeBackupModal() {
+            const modal = document.getElementById('backup-modal');
+            const card = document.getElementById('backup-modal-card');
+            modal.classList.add('opacity-0');
+            card.classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        function exportMemoriesJson() {
+            const blob = new Blob([JSON.stringify(memories, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `our-thoughts-garden-${new Date().toISOString().slice(0, 10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('💾 已下載花園備份檔 (.json)');
+        }
+
+        function importMemoriesJson(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    if (Array.isArray(imported)) {
+                        memories = imported;
+                        saveMemories();
+                        closeBackupModal();
+                        showToast(`✅ 成功還原 ${memories.length} 篇花園回憶！`);
+                    }
+                } catch (err) {
+                    showToast('❌ 檔案格式不正確，請選擇有效的備份檔');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function escapeHtml(str) {
+            return String(str).replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+        }
+
+        let toastTimer = null;
+        function showToast(message) {
+            const toast = document.getElementById('toast-msg');
+            toast.textContent = message;
+            toast.classList.remove('opacity-0', '-translate-y-2');
+            if (toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => toast.classList.add('opacity-0', '-translate-y-2'), 3200);
+        }
+    </script>
+</body>
+</html>
