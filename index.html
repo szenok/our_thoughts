@@ -811,10 +811,28 @@
         提示訊息
     </div>
 
+    <!-- === 加入 Firebase SDK === -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
     <!-- =========================================================
          JAVASCRIPT 核心引擎
          ========================================================= -->
     <script>
+        // 替換成你頭先喺 Firebase 抄低嘅 Config！
+        const firebaseConfig = {
+            apiKey: "AIzaSyBd2hpAQZhamegODtckmRIBdypbWwMlqqo",
+            authDomain: "ourthoughts-63960.firebaseapp.com",
+            databaseURL: "https://ourthoughts-63960-default-rtdb.firebaseio.com",
+            projectId: "ourthoughts-63960",
+            storageBucket: "ourthoughts-63960.firebasestorage.app",
+            messagingSenderId: "193724153704",
+            appId: "1:193724153704:web:2805a86b04a61afc5420dd"
+        };
+        // 初始化 Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
         /**
          * =========================================================
          * [專屬暗號與日曆印記設定]
@@ -1617,7 +1635,7 @@
                     resultsBox.innerHTML = `
                         <div class="p-2.5 rounded-xl bg-white border border-slate-200 flex items-center justify-between gap-2">
                             <span class="text-[11px] text-slate-600">找不到預覽音訊，可直接儲存歌名「${escapeHtml(term)}」：</span>
-                            <button type="button" onclick="selectCustomSongTitle('${escapeHtml(term).replace(/'/g, "\\'")}')" class="px-2.5 py-1 rounded-lg bg-amber-100 text-amber-900 text-[11px] font-medium shrink-0">選用此歌名</button>
+                            <button type="button" onclick="selectCustomSongTitle('${escapeHtml(term).replace(/'/g, "\'")}')" class="px-2.5 py-1 rounded-lg bg-amber-100 text-amber-900 text-[11px] font-medium shrink-0">選用此歌名</button>
                         </div>`;
                 } else {
                     data.results.forEach(track => {
@@ -1649,7 +1667,7 @@
                 resultsBox.innerHTML = `
                     <div class="p-2.5 rounded-xl bg-white border border-slate-200 flex items-center justify-between gap-2">
                         <span class="text-[11px] text-slate-600">暫時無法連線音樂庫，可直接儲存歌名「${escapeHtml(term)}」：</span>
-                        <button type="button" onclick="selectCustomSongTitle('${escapeHtml(term).replace(/'/g, "\\'")}')" class="px-2.5 py-1 rounded-lg bg-amber-100 text-amber-900 text-[11px] font-medium shrink-0">選用此歌名</button>
+                        <button type="button" onclick="selectCustomSongTitle('${escapeHtml(term).replace(/'/g, "\'")}')" class="px-2.5 py-1 rounded-lg bg-amber-100 text-amber-900 text-[11px] font-medium shrink-0">選用此歌名</button>
                     </div>`;
             } finally {
                 btn.textContent = '搜尋';
@@ -1722,24 +1740,30 @@
         });
 
         function loadMemories() {
-            const saved = localStorage.getItem('our_thoughts_garden_v1');
-            if (saved) {
-                try {
-                    const parsed = JSON.parse(saved);
-                    if (Array.isArray(parsed)) {
-                        memories = parsed;
-                        return;
-                    }
-                } catch (e) {}
-            }
-            memories = [];
+            // 監聽 Firebase 雲端資料庫嘅 'memories' 節點
+            db.ref('memories').on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    memories = data;
+                } else {
+                    memories = [];
+                }
+                
+                // 當雲端有更新，即時重新渲染畫面
+                updateStats();
+                renderGarden();
+                if (currentMainView === 'calendar') renderCalendar();
+            });
         }
 
         function saveMemories() {
-            localStorage.setItem('our_thoughts_garden_v1', JSON.stringify(memories));
-            updateStats();
-            renderGarden();
-            if (currentMainView === 'calendar') renderCalendar();
+            // 將整個花園狀態推上雲端 Firebase
+            db.ref('memories').set(memories)
+                .catch((error) => {
+                    showToast('❌ 雲端同步失敗：' + error.message);
+                });
+            // 唔需要再手動 call updateStats() 同 renderGarden()
+            // 因為上面 loadMemories 嘅 .on('value') 會自動偵測到改變並幫你 render
         }
 
         // 大門快捷數字鍵盤操作
