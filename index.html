@@ -2347,7 +2347,19 @@
                     audioPlayer.onpause = () => setAudioDucked(false);
                     audioPlayer.onended = () => setAudioDucked(false);
                     setTimeout(() => {
-                        audioPlayer.play().catch(e => console.log('Browser blocked autoplay. Awaiting interaction.', e));
+                        audioPlayer.volume = 0; // 開始時音量為 0
+                        audioPlayer.play().then(() => {
+                            // 成功播放後，開始漸大聲
+                            let vol = 0;
+                            const fadeInterval = setInterval(() => {
+                                if (vol < 1.0) {
+                                    vol += 0.05; // 每次增加 5% 音量
+                                    audioPlayer.volume = Math.min(vol, 1.0);
+                                } else {
+                                    clearInterval(fadeInterval);
+                                }
+                            }, 100); // 每 100 毫秒加一次，約 2 秒鐘漸進至 100% 音量
+                        }).catch(e => console.log('Browser blocked autoplay. Awaiting interaction.', e));
                     }, 150);
                 } else {
                     audioWrapper.classList.add('hidden');
@@ -2400,6 +2412,7 @@
                 if (audioPlayer) {
                     audioPlayer.pause();
                     audioPlayer.src = '';
+                    audioPlayer.volume = 1.0; // 重置音量
                 }
                 activeSpecimenId = null;
                 setAudioDucked(false);
